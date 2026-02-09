@@ -9,7 +9,7 @@ export default function ThemeCreator() {
   const [themeName, setThemeName] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState<"public" | "private">("public");
-  const [hasPrice, setHasPrice] = useState(false);
+  // const [hasPrice, setHasPrice] = useState(false);
 
   // Derived state for styles
   const isPublic = visibility === "public";

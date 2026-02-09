@@ -220,7 +220,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   { name: "Arbitrum", time: "≈30s", fee: "0.30" },
                   { name: "Optimism", time: "≈30s", fee: "0.35" },
                   { name: "Base", time: "≈30s", fee: "0.20" },
-                ].map((chain, i) => (
+                ].map((chain) => (
                   <div
                     key={chain.name}
                     className="cr-chain-item flex max-h-12 cursor-pointer items-center justify-between gap-2 rounded-2xl px-4 py-2 bg-bg-100-alt"
@@ -360,7 +360,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   { token: "USDC", chain: "Ethereum", balance: "1,234.56" },
                   { token: "USDC", chain: "Polygon", balance: "567.89" },
                   { token: "USDT", chain: "Ethereum", balance: "890.12" },
-                ].map((item, i) => (
+                ].map((item) => (
                   <div
                     key={`${item.token}-${item.chain}`}
                     className="cr-token-item flex min-h-[56px] cursor-pointer items-center justify-between gap-2 rounded-2xl bg-[#F2F2F2] px-4 py-2"
