@@ -8,7 +8,7 @@ import { setAccessToken } from "../store/auth";
  * Strips the token from the URL so it doesn't linger in the address bar.
  */
 export default function AuthCallback() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
 
