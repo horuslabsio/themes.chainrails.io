@@ -1,12 +1,15 @@
-import { Plus } from "lucide-react";
+import { Plus, LogOut } from "lucide-react";
 import { motion } from "motion/react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../utils/cn";
 import Button from "./Button";
 import Logo from "./Logo";
+import { useAuthStore, getSignInUrl, clearAccessToken } from "../store/auth";
 
 export default function Navigation() {
   const location = useLocation();
+  const { accessToken } = useAuthStore();
+  const isSignedIn = !!accessToken;
 
   const isActive = (path: string) => {
     if (path === "/" && location.pathname === "/") return true;
@@ -17,6 +20,14 @@ export default function Navigation() {
     { path: "/", label: "Theme Store" },
     { path: "/mine", label: "My Themes" },
   ];
+
+  const handleSignIn = () => {
+    window.location.href = getSignInUrl();
+  };
+
+  const handleSignOut = () => {
+    clearAccessToken();
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-[#FAFAFA] border-b border-[#EFEFEF]">
@@ -56,9 +67,16 @@ export default function Navigation() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm">
-              <span className="hidden sm:inline">Sign In</span>
-            </Button>
+            {isSignedIn ? (
+              <Button variant="secondary" size="sm" onClick={handleSignOut}>
+                <LogOut size={16} />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
+            ) : (
+              <Button variant="secondary" size="sm" onClick={handleSignIn}>
+                <span className="hidden sm:inline">Sign In</span>
+              </Button>
+            )}
             <Link to="/create">
               <Button variant="primary" size="sm">
                 <Plus size={20} />

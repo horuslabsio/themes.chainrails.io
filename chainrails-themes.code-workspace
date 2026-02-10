@@ -1,14 +1,17 @@
 {
   "folders": [
-	{
-		"path": "../chainrails-frontend"
-	},
-	{
-		"path": "."
-	},
-	{
-		"path": "../chainrails-dashboard"
-	}
-],
-  "settings": {}
+    {
+      "path": "../chainrails-frontend",
+    },
+    {
+      "path": ".",
+    },
+    {
+      "path": "../chainrails-dashboard",
+    },
+    {
+      "path": "../chainrails-backend",
+    },
+  ],
+  "settings": {},
 }

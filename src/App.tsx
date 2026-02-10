@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import Navigation from "./components/Navigation";
+import AuthCallback from "./components/AuthCallback";
 import ThemeStore from "./pages/ThemeStore";
 import ThemeCreator from "./pages/ThemeCreator";
 import ThemeEditor from "./pages/ThemeEditor";
@@ -10,6 +11,7 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
+        <AuthCallback />
         <Navigation />
         <Routes>
           <Route path="/" element={<ThemeStore />}>
