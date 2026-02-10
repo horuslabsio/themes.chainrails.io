@@ -1,41 +1,53 @@
-import { useState, useEffect } from "react";
-import { useSnapshot } from "valtio";
-import { themeStore } from "../store/theme";
-import { Link, Outlet } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { useAuthStore } from "../store/auth";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import ThemePreview from "../components/ThemePreview";
 import { cn } from "../utils/cn";
 import Button from "../components/Button";
+import type { ThemeCategory } from "../types/theme";
+import { useThemes, useMyThemes } from "../hooks/useThemeQueries";
+import { THEME_CATEGORIES } from "../store/theme";
 
-const CATEGORIES = ["All", "Gaming", "Technology", "Health & Wellness", "Travel", "Finance", "Education"];
 const ITEMS_PER_PAGE = 8;
 
 export default function ThemeStore() {
-  const snap = useSnapshot(themeStore);
-  const themes = snap.getFilteredThemes();
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { accessToken } = useAuthStore();
+  const location = useLocation();
+  const isMinePage = location.pathname.startsWith("/mine");
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [activeCategory, setActiveCategory] = useState<ThemeCategory | "all">("all");
+  const [page, setPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
 
-  const totalPages = Math.ceil(themes.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentThemes = themes.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const query = {
+    page,
+    limit: ITEMS_PER_PAGE,
+    category: activeCategory === "all" ? undefined : activeCategory,
+  };
 
-  useEffect(() => {
-    setCurrentPage(1);
-    setPageInput("1");
-  }, [activeCategory, themes.length]); // Reset on category or data change
+  const publicQuery = useThemes(query);
+  const mineQuery = useMyThemes(query, isMinePage && !!accessToken);
 
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-      setPageInput(page.toString());
+  const { data, isLoading, error } = isMinePage ? mineQuery : publicQuery;
+
+  const themes = data?.themes ?? [];
+  const pagination = data?.pagination ?? { page: 1, limit: ITEMS_PER_PAGE, total: 0, totalPages: 0 };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      setPage(newPage);
+      setPageInput(newPage.toString());
     }
   };
 
+  const handleCategoryChange = (category: ThemeCategory | "all") => {
+    setActiveCategory(category);
+    setPage(1);
+    setPageInput("1");
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Allow only numbers
     const value = e.target.value;
     if (value === "" || /^\d+$/.test(value)) {
       setPageInput(value);
@@ -45,8 +57,7 @@ export default function ThemeStore() {
   const handleInputBlur = () => {
     let page = parseInt(pageInput);
     if (isNaN(page) || page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
-
+    if (page > pagination.totalPages) page = pagination.totalPages;
     handlePageChange(page);
   };
 
@@ -58,7 +69,10 @@ export default function ThemeStore() {
   };
 
   const renderPageNumbers = () => {
-    const pages = [];
+    const pages: (number | string)[] = [];
+    const totalPages = pagination.totalPages;
+    const currentPage = pagination.page;
+
     if (totalPages <= 6) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
@@ -88,93 +102,148 @@ export default function ThemeStore() {
       <div className="pl-25 pr-22 py-4">
         {/* Categories */}
         <div className="flex flex-wrap items-center gap-2 mb-8">
-          {CATEGORIES.map((category) => (
+          {THEME_CATEGORIES.map((cat) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
+              key={cat.value}
+              onClick={() => handleCategoryChange(cat.value)}
               className={cn(
                 "px-3 py-2 text-xs font-normal cursor-pointer",
-                activeCategory === category
+                activeCategory === cat.value
                   ? "bg-[#111111] text-white font-bold rounded-3xl"
                   : "bg-[#F3F4F6] text-[#878787] rounded-lg hover:bg-[linear-gradient(180deg,#2F2F2FEE_0%,#0B0B0BEE_100%)] hover:text-white",
               )}
             >
-              {category}
+              {cat.label}
             </button>
           ))}
         </div>
 
-        {/* Themes Grid */}
-        <div className="flex flex-wrap gap-4 mb-7 justify-evenly w-full">
-          {currentThemes.map((theme) => (
-            <div key={theme.id} className="group flex flex-col w-74">
-              <Link
-                to={`/theme/${theme.slug}`}
-                className="bg-[#F3F3F3] flex flex-col relative group-hover:shadow-xs transition-all duration-100 py-3 px-4 rounded-2xl"
-              >
-                <ThemePreview theme={theme} />
-                <h3 className="mt-4 font-medium text-base text-black mb-1.5 group-hover:underline decoration-1.5 underline-offset-2">
-                  {theme.name}
-                </h3>
-                <p className="text-sm text-[#454545] mb-1.5 line-clamp-2 leading-[1.2]">{theme.description}</p>
-                <Link
-                  to="#"
-                  className="w-fit text-xs text-[#00000099] border-b border-[#CCCCCC] pb-0.5 hover:text-black hover:border-black transition-colors font-mono"
-                >
-                  by {theme.author}
-                </Link>
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-6 h-6 animate-spin text-[#888]" />
+            <span className="ml-2 text-sm text-[#888]">Loading themes...</span>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !isLoading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <p className="text-sm text-red-500 mb-3">{error instanceof Error ? error.message : "Something went wrong"}</p>
+            <Button variant="secondary" onClick={() => (isMinePage ? mineQuery.refetch() : publicQuery.refetch())}>
+              Retry
+            </Button>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && !error && themes.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <p className="text-sm text-[#888] mb-3">{isMinePage ? "You haven't created any themes yet." : "No themes found."}</p>
+            {isMinePage && (
+              <Link to="/create">
+                <Button variant="primary">Create Your First Theme</Button>
               </Link>
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
+        )}
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Button variant="secondary" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-              <ChevronLeft size={16} className="-ml-1.5" />
-              Prev
-            </Button>
-            <div className="flex items-center gap-1 text-xs text-[#DBDBDB]">
-              {renderPageNumbers().map((page, index) =>
-                page === "..." ? (
-                  <span key={`ellipsis-${index}`} className="w-7.5 h-7.5 flex items-center justify-center">
-                    ...
-                  </span>
-                ) : (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page as number)}
-                    className={cn(
-                      "w-7.5 h-7.5 flex items-center justify-center rounded-lg border cursor-pointer",
-                      currentPage === page ? "text-[#4F4F4F] border-[#DEDEDE]" : " hover:text-[#888888] border-transparent",
-                    )}
+        {/* Themes Grid */}
+        {!isLoading && !error && themes.length > 0 && (
+          <>
+            <div className="flex flex-wrap gap-4 mb-7 w-full">
+              {themes.map((theme) => (
+                <div key={theme.id} className="group flex flex-col w-74">
+                  <Link
+                    to={isMinePage && theme.status !== "approved" ? `/edit/${theme.slug}` : `/theme/${theme.slug}`}
+                    className="bg-[#F3F3F3] flex flex-col relative group-hover:shadow-xs transition-all duration-100 py-3 px-4 rounded-2xl"
                   >
-                    {page}
-                  </button>
-                ),
-              )}
+                    <ThemePreview theme={theme} />
+                    <h3 className="mt-4 font-medium text-base text-black mb-1.5 group-hover:underline decoration-1.5 underline-offset-2">
+                      {theme.name}
+                    </h3>
+                    <p className="text-sm text-[#454545] mb-1.5 line-clamp-2 leading-[1.2]">
+                      {theme.description || "No description"}
+                    </p>
+                    {isMinePage && (
+                      <span
+                        className={cn(
+                          "mt-1 inline-flex w-fit px-2 py-0.5 text-[10px] font-medium rounded-full",
+                          theme.status === "approved" && "bg-green-100 text-green-700",
+                          theme.status === "pending" && "bg-yellow-100 text-yellow-700",
+                          theme.status === "draft" && "bg-gray-100 text-gray-600",
+                          theme.status === "rejected" && "bg-red-100 text-red-700",
+                        )}
+                      >
+                        {theme.status}
+                      </span>
+                    )}
+                  </Link>
+                </div>
+              ))}
             </div>
 
-            <Button variant="secondary" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-              Next
-              <ChevronRight size={16} className="-mr-1.5" />
-            </Button>
-          </div>
+            {/* Pagination */}
+            {pagination.totalPages > 1 && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="secondary"
+                    onClick={() => handlePageChange(pagination.page - 1)}
+                    disabled={pagination.page === 1}
+                  >
+                    <ChevronLeft size={16} className="-ml-1.5" />
+                    Prev
+                  </Button>
+                  <div className="flex items-center gap-1 text-xs text-[#DBDBDB]">
+                    {renderPageNumbers().map((p, index) =>
+                      p === "..." ? (
+                        <span key={`ellipsis-${index}`} className="w-7.5 h-7.5 flex items-center justify-center">
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => handlePageChange(p as number)}
+                          className={cn(
+                            "w-7.5 h-7.5 flex items-center justify-center rounded-lg border cursor-pointer",
+                            pagination.page === p
+                              ? "text-[#4F4F4F] border-[#DEDEDE]"
+                              : " hover:text-[#888888] border-transparent",
+                          )}
+                        >
+                          {p}
+                        </button>
+                      ),
+                    )}
+                  </div>
 
-          <div className="flex items-center text-xs text-[#4F4F4F]">
-            Page
-            <input
-              type="text"
-              value={pageInput}
-              onChange={handleInputChange}
-              onBlur={handleInputBlur}
-              onKeyDown={handleInputKeyDown}
-              className="w-7.5 text-center text-[#4F4F4F] border border-[#DEDEDE] rounded-lg mx-2 py-1"
-            />
-            of {totalPages}
-          </div>
-        </div>
+                  <Button
+                    variant="secondary"
+                    onClick={() => handlePageChange(pagination.page + 1)}
+                    disabled={pagination.page === pagination.totalPages}
+                  >
+                    Next
+                    <ChevronRight size={16} className="-mr-1.5" />
+                  </Button>
+                </div>
+
+                <div className="flex items-center text-xs text-[#4F4F4F]">
+                  Page
+                  <input
+                    type="text"
+                    value={pageInput}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    onKeyDown={handleInputKeyDown}
+                    className="w-7.5 text-center text-[#4F4F4F] border border-[#DEDEDE] rounded-lg mx-2 py-1"
+                  />
+                  of {pagination.totalPages}
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </div>
       <Outlet />
     </div>

@@ -3,11 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CodeMirror from "@uiw/react-codemirror";
 import { css as cssLang } from "@codemirror/lang-css";
-import { ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText, Loader2 } from "lucide-react";
 import type { ThemeModalScreen } from "../types/theme";
 import MockModal from "../components/ModalPreview";
 import Button from "../components/Button";
 import { cn } from "../utils/cn";
+import { useMyThemeBySlug, useUpdateTheme, useSubmitTheme } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "selectMethod", label: "Select Method" },
@@ -26,11 +27,17 @@ export default function ThemeEditor() {
   const navigate = useNavigate();
   const [activeScreen, setActiveScreen] = useState<ThemeModalScreen>("selectMethod");
 
+  const { data: fetchedTheme, isLoading: isLoadingTheme, error: loadError } = useMyThemeBySlug(themeName);
+  const updateMutation = useUpdateTheme();
+  const submitMutation = useSubmitTheme();
+
+  const [themeId, setThemeId] = useState<string | null>(null);
   const [themeInfo, setThemeInfo] = useState<{
     name: string;
-    description: string;
+    description: string | null;
     visibility: "public" | "private";
     slug: string;
+    status: string;
   } | null>(null);
 
   const [css, setCss] = useState(`/* Start editing your theme here */
@@ -51,41 +58,39 @@ export default function ThemeEditor() {
     letter-spacing: -2%;
 }`);
 
-  const [isSaving, setIsSaving] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [savedCss, setSavedCss] = useState("");
   const [editorWidthPct, setEditorWidthPct] = useState(50);
   const isDraggingRef = useRef(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // Sync fetched theme data into local state
   useEffect(() => {
-    // Load theme info from localStorage or API
-    if (themeName) {
-      const storedTheme = localStorage.getItem(`theme-${themeName}`);
-      if (storedTheme) {
-        setThemeInfo(JSON.parse(storedTheme));
-
-        // Load existing CSS if available
-        const storedCss = localStorage.getItem(`theme-${themeName}-css`);
-        if (storedCss) {
-          setCss(storedCss);
-          setSavedCss(storedCss);
-        } else {
-          setSavedCss(css);
-        }
+    if (fetchedTheme) {
+      setThemeId(fetchedTheme.id);
+      setThemeInfo({
+        name: fetchedTheme.name,
+        description: fetchedTheme.description,
+        visibility: fetchedTheme.visibility,
+        slug: fetchedTheme.slug,
+        status: fetchedTheme.status,
+      });
+      if (fetchedTheme.css) {
+        setCss(fetchedTheme.css);
+        setSavedCss(fetchedTheme.css);
       } else {
-        // Fallback for demo if not found in local storage
-        setThemeInfo({
-          name: themeName || "Demo Theme",
-          description: "A demo theme",
-          visibility: "public",
-          slug: themeName || "demo-theme",
-        });
-        // Theme not found, redirect to create page
-        // navigate("/create");
+        setSavedCss(css);
       }
     }
-  }, [themeName, navigate]);
+  }, [fetchedTheme]);
+
+  // Redirect if theme not found after loading
+  useEffect(() => {
+    if (!isLoadingTheme && loadError) {
+      toast.error("Theme not found");
+      navigate("/mine");
+    }
+  }, [isLoadingTheme, loadError, navigate]);
 
   // Track unsaved changes
   useEffect(() => {
@@ -147,61 +152,63 @@ export default function ThemeEditor() {
     };
   }, [updateWidthsFromClientX]);
 
-  const handleSave = useCallback(
-    async (status: "draft" | "submitted") => {
-      if (!themeInfo) return;
+  const handleSave = useCallback(async () => {
+    if (!themeId) return;
 
-      setIsSaving(true);
-
-      try {
-        // Save CSS to localStorage (in a real app, this would be an API call)
-        localStorage.setItem(`theme-${themeInfo.slug}-css`, css);
-
-        // Update saved state
+    try {
+      const updated = await updateMutation.mutateAsync({ id: themeId, payload: { cssContent: css } });
+      if (updated) {
         setSavedCss(css);
         setHasUnsavedChanges(false);
-
-        // Update theme info with status
-        const updatedTheme = {
-          ...themeInfo,
-          status,
-          css,
-          updatedAt: new Date().toISOString(),
-        };
-        localStorage.setItem(`theme-${themeInfo.slug}`, JSON.stringify(updatedTheme));
-
-        // Show success message
-        toast.success(status === "submitted" ? "Theme published!" : "Draft saved!");
-
-        if (status === "submitted") {
-          // Redirect to theme details or dashboard
-          // navigate(`/theme/${themeInfo.slug}`);
-        }
-      } catch (error) {
-        toast.error("Error saving theme. Please try again.");
-      } finally {
-        setIsSaving(false);
+        toast.success("Draft saved!");
       }
-    },
-    [themeInfo, css, navigate],
-  );
+    } catch {
+      toast.error("Error saving theme. Please try again.");
+    }
+  }, [themeId, css, updateMutation]);
+
+  const handlePublish = useCallback(async () => {
+    if (!themeId) return;
+
+    try {
+      // First save the CSS if there are unsaved changes
+      if (hasUnsavedChanges) {
+        const updated = await updateMutation.mutateAsync({ id: themeId, payload: { cssContent: css } });
+        if (!updated) {
+          toast.error("Failed to save CSS before publishing.");
+          return;
+        }
+        setSavedCss(css);
+        setHasUnsavedChanges(false);
+      }
+
+      // Then submit for review
+      const submitted = await submitMutation.mutateAsync(themeId);
+      if (submitted) {
+        setThemeInfo((prev) => (prev ? { ...prev, status: "pending" } : prev));
+        toast.success("Theme submitted for review!");
+      }
+    } catch {
+      toast.error("Error publishing theme. Please try again.");
+    }
+  }, [themeId, css, hasUnsavedChanges, updateMutation, submitMutation]);
 
   // Handle Ctrl+S save shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "s") {
         e.preventDefault();
-        if (hasUnsavedChanges && !isSaving) {
-          handleSave("draft");
+        if (hasUnsavedChanges && !updateMutation.isPending) {
+          handleSave();
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [hasUnsavedChanges, isSaving, handleSave]);
+  }, [hasUnsavedChanges, updateMutation.isPending, handleSave]);
 
-  if (!themeInfo) {
+  if (isLoadingTheme) {
     return (
       <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
         <div className="text-center">
@@ -212,6 +219,22 @@ export default function ThemeEditor() {
     );
   }
 
+  if (!themeInfo) {
+    return (
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-[#6B7280] mb-4">Theme not found</p>
+          <Button variant="primary" onClick={() => navigate("/mine")}>
+            Back to My Themes
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const canEdit = themeInfo.status === "draft" || themeInfo.status === "rejected";
+  const canPublish = canEdit && css.trim().length > 0;
+
   return (
     <div className="h-[calc(100vh-65px)] flex flex-col bg-white">
       {/* Secondary Toolbar */}
@@ -221,14 +244,36 @@ export default function ThemeEditor() {
             <FileText className="w-4 h-4 text-[#8C8C8C]" />
           </div>
           <span className="font-medium text-[#2F2F2F]">{themeInfo.name || "untitled"}.css</span>
+          {themeInfo.status === "pending" && (
+            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-yellow-100 text-yellow-700">
+              Under Review
+            </span>
+          )}
+          {themeInfo.status === "approved" && (
+            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-green-100 text-green-700">Approved</span>
+          )}
+          {themeInfo.status === "rejected" && (
+            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-red-100 text-red-700">Rejected</span>
+          )}
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="secondary" onClick={() => handleSave("draft")}>
-            Save Draft
-          </Button>
-          <Button variant="primary" onClick={() => handleSave("submitted")}>
-            Publish
-          </Button>
+          {canEdit && (
+            <>
+              <Button variant="secondary" onClick={handleSave} disabled={updateMutation.isPending || !hasUnsavedChanges}>
+                {updateMutation.isPending ? <Loader2 size={14} className="animate-spin mr-1" /> : null}
+                Save Draft
+              </Button>
+              <Button variant="primary" onClick={handlePublish} disabled={submitMutation.isPending || !canPublish}>
+                {submitMutation.isPending ? <Loader2 size={14} className="animate-spin mr-1" /> : null}
+                Publish
+              </Button>
+            </>
+          )}
+          {!canEdit && (
+            <span className="text-xs text-[#888]">
+              {themeInfo.status === "pending" ? "Awaiting review" : "This theme cannot be edited"}
+            </span>
+          )}
         </div>
       </div>
 
@@ -244,6 +289,7 @@ export default function ThemeEditor() {
               height="100%"
               extensions={[cssLang()]}
               onChange={handleCssChange}
+              readOnly={!canEdit}
               className="h-full text-[14px]"
               basicSetup={{
                 lineNumbers: true,
@@ -272,17 +318,18 @@ export default function ThemeEditor() {
         </div>
 
         {/* Preview Panel */}
+
         <div
-          className="col-span-1 min-w-[240px] bg-[#F1F1F1] rounded-xl relative flex flex-col items-center h-[calc(100vh-160px)] overflow-hidden"
+          className="col-span-1 min-w-[240px]bg-[#F1F1F1] rounded-xl relative flex flex-col items-center h-[calc(100vh-160px)] overflow-hidden"
           style={{ width: `${100 - editorWidthPct}%` }}
         >
           <Button variant="secondary" size="sm" className="absolute top-5 left-5 pointer-events-none w-15 h-5.5">
             Preview
           </Button>
 
-          <div className="flex-1 flex items-end justify-center w-full pb-4 h-full overflow-hidden">
+          <div className="flex-1 flex items-end justify-center max-h-[666px] w-full pb-4 h-full overflow-hidden">
             <div className="scale-75 origin-bottom">
-              <MockModal screen={activeScreen} customCss={savedCss} />
+              <MockModal screen={activeScreen} customCss={css} />
             </div>
           </div>
 

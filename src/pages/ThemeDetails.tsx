@@ -1,15 +1,14 @@
 import { useParams, Link } from "react-router-dom";
-import { useSnapshot } from "valtio";
-import { themeStore } from "../store/theme";
 import { useState } from "react";
 import { toast } from "sonner";
 import type { ThemeModalScreen } from "../types/theme";
 import MockModal from "../components/ModalPreview";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import Button from "../components/Button";
 import { cn } from "../utils/cn";
+import { useThemeBySlug } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "selectMethod", label: "Select Method" },
@@ -25,12 +24,19 @@ const modalScreens: { key: ThemeModalScreen; label: string }[] = [
 
 export default function ThemeDetails() {
   const { slug } = useParams<{ slug: string }>();
-  const snap = useSnapshot(themeStore);
-  const theme = snap.themes.find((t) => t.slug === slug);
+  const { data: theme, isLoading, error } = useThemeBySlug(slug);
   const [activeScreen, setActiveScreen] = useState<ThemeModalScreen>("selectMethod");
 
-  // TODO
-  if (!theme) {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-6 h-6 animate-spin text-[#888]" />
+        <span className="ml-2 text-sm text-[#888]">Loading theme...</span>
+      </div>
+    );
+  }
+
+  if (error || !theme) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center py-12">
@@ -45,7 +51,6 @@ export default function ThemeDetails() {
   }
 
   const handleUseTheme = () => {
-    // Mock implementation - would generate usage code
     const code = `<ChainrailsModal theme="${theme.slug}" />`;
     navigator.clipboard.writeText(code);
     toast.success("Usage code copied to clipboard!");
@@ -66,20 +71,29 @@ export default function ThemeDetails() {
           <div className="bg-white border border-[#F2F2F2] rounded-2xl p-8">
             <div>
               <h1 className="text-5xl font-medium mb-2">{theme.name}</h1>
-              <Link
-                to="#"
-                className="w-fit text-xs text-[#00000099] border-b border-[#CCCCCC] pb-0.5 hover:text-black hover:border-black transition-colors"
-              >
-                by {theme.author}
-              </Link>{" "}
+              <span className="text-xs text-[#00000066]">{theme.category}</span>
             </div>
 
-            <p className="text-sm text-[#454545] my-8 max-w-88">{theme.description}</p>
+            <p className="text-sm text-[#454545] my-8 max-w-88">{theme.description || "No description"}</p>
 
             <div className="font-mono text-xs text-[#00000099]">
               <div className="border-t border-[#EFEFEF] flex items-center justify-between py-2">
-                <span>Users</span>
-                <span>{theme.users.toLocaleString()}</span>
+                <span>Status</span>
+                <span
+                  className={cn(
+                    "px-2 py-0.5 rounded-full text-[10px] font-medium",
+                    theme.status === "approved" && "bg-green-100 text-green-700",
+                    theme.status === "pending" && "bg-yellow-100 text-yellow-700",
+                    theme.status === "draft" && "bg-gray-100 text-gray-600",
+                    theme.status === "rejected" && "bg-red-100 text-red-700",
+                  )}
+                >
+                  {theme.status}
+                </span>
+              </div>
+              <div className="border-t border-[#EFEFEF] flex items-center justify-between py-2">
+                <span>Visibility</span>
+                <span>{theme.visibility}</span>
               </div>
               <div className="border-t border-[#EFEFEF] flex items-center justify-between py-2">
                 <span>Created</span>
@@ -88,16 +102,6 @@ export default function ThemeDetails() {
               <div className="border-t border-[#EFEFEF] flex items-center justify-between py-2">
                 <span>Updated</span>
                 <span>{new Date(theme.updatedAt).toLocaleDateString()}</span>
-              </div>
-              <div className="border-t border-[#EFEFEF] flex items-center justify-between py-2">
-                <span>Tags</span>
-                <span className="flex flex-wrap gap-1">
-                  {theme.tags.map((tag) => (
-                    <span key={tag} className="px-1.5 py-0.5 bg-blue-100 text-blue-800 rounded-lg">
-                      {tag}
-                    </span>
-                  ))}
-                </span>
               </div>
             </div>
 

@@ -1,24 +1,28 @@
+export type ThemeCategory = "gaming" | "health" | "travel" | "finance" | "education" | "others";
+
 export interface Theme {
   id: string;
   slug: string;
   name: string;
-  description: string;
-  author: string;
-  authorAvatar?: string;
-  status: "draft" | "submitted" | "approved" | "rejected";
+  description: string | null;
+  category: ThemeCategory;
+  authorId: string;
   visibility: "public" | "private";
+  status: "draft" | "pending" | "approved" | "rejected";
   css: string;
-  previewImage?: string;
-  users: number;
-  tags: string[];
+  cssHash: string | null;
+  cssSize: number | null;
+  cdnUrl: string | null;
+  submittedAt: string | null;
+  reviewedAt: string | null;
+  rejectionReason: string | null;
   createdAt: string;
   updatedAt: string;
-  rejectionReason?: string;
 }
 
 export interface ThemeFilter {
   search: string;
-  tags: string[];
+  category?: ThemeCategory;
   status?: Theme["status"];
   visibility?: Theme["visibility"];
 }
