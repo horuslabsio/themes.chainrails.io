@@ -172,7 +172,7 @@ export const themeApi = {
 
   update(id: string, payload: UpdateThemePayload): Promise<ApiTheme> {
     return request<ApiTheme>(`/themes/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       body: payload,
       auth: true,
     });
