@@ -95,6 +95,7 @@ export interface ApiTheme {
   visibility: "public" | "private";
   status: "draft" | "pending" | "approved" | "rejected";
   css: string;
+  cssContent: string;
   cssHash: string | null;
   cssSize: number | null;
   cdnUrl: string | null;

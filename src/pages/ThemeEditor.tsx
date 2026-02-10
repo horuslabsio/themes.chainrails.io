@@ -40,7 +40,11 @@ export default function ThemeEditor() {
     status: string;
   } | null>(null);
 
-  const [css, setCss] = useState(`/* Start editing your theme here */
+  useEffect(() => setCss((css) => fetchedTheme?.cssContent || css), [fetchedTheme?.cssContent]);
+
+  const [css, setCss] = useState(
+    fetchedTheme?.cssContent ||
+      `
 @import url('https://fonts.cdnfonts.com/css/inter');
 @import url('https://fonts.cdnfonts.com/css/google-sans');
 
@@ -56,7 +60,8 @@ export default function ThemeEditor() {
 .cr-amount-value {
     font-family: 'Product Sans', -apple-system, 'Helvetica Neue', sans-serif;
     letter-spacing: -2%;
-}`);
+}`,
+  );
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [savedCss, setSavedCss] = useState("");
