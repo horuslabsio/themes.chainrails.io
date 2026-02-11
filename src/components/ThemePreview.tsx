@@ -11,8 +11,8 @@ export default function ThemePreview({ theme, scale = 0.5 }: ThemePreviewProps) 
   const scopeId = useMemo(() => `theme-preview-${theme.id}`, [theme.id]);
 
   const scopedCss = useMemo(() => {
-    if (!theme.css) return "";
-    return theme.css.replace(/([^\r\n,{}]+)(?=\{)/g, (match) => {
+    if (!theme.css_content) return "";
+    return theme.css_content.replace(/([^\r\n,{}]+)(?=\{)/g, (match) => {
       const selectors = match.split(",");
       return selectors
         .map((sel) => {
@@ -25,7 +25,7 @@ export default function ThemePreview({ theme, scale = 0.5 }: ThemePreviewProps) 
         })
         .join(", ");
     });
-  }, [theme.css, scopeId]);
+  }, [theme.css_content, scopeId]);
 
   return (
     <div

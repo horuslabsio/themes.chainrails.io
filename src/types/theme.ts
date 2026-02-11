@@ -9,7 +9,7 @@ export interface Theme {
   authorId: string;
   visibility: "public" | "private";
   status: "draft" | "pending" | "approved" | "rejected";
-  css: string;
+  css_content: string;
   cssHash: string | null;
   cssSize: number | null;
   cdnUrl: string | null;

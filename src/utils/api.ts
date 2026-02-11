@@ -96,6 +96,7 @@ export interface ApiTheme {
   status: "draft" | "pending" | "approved" | "rejected";
   css: string;
   cssContent: string;
+  css_content: string;
   cssHash: string | null;
   cssSize: number | null;
   cdnUrl: string | null;
