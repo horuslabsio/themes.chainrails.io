@@ -11,6 +11,7 @@ import { cn } from "../utils/cn";
 import { useMyThemeBySlug, useUpdateTheme, useSubmitTheme } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
+  { key: "depositInputAmount", label: "Deposit: Input Amount" },
   { key: "selectMethod", label: "Select Method" },
   { key: "payToAddress", label: "Pay to Address" },
   { key: "payWithWallet", label: "Pay with Wallet" },
@@ -332,12 +333,12 @@ export default function ThemeEditor() {
             Preview
           </Button>
 
-          <div className="flex-1 flex items-end justify-center max-h-[666px] w-full pb-4 h-full overflow-hidden">
-            <div className="scale-75 origin-bottom">
+          <div className="flex-1 flex items-end justify-center max-h-[666px] w-full pb-4 h-full overflow-hidden group pointer-events-none">
+            <div className="scale-75 origin-bottom pointer-events-auto">
               <MockModal screen={activeScreen} customCss={css} />
             </div>
             <div
-              className="fixed z-100 size-20 rounded-lg border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none"
+              className="fixed z-100 size-20 rounded-lg border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none opacity-0 group-hover:opacity-100"
               style={{
                 left: "var(--left)",
                 top: "var(--top)",
@@ -354,7 +355,7 @@ export default function ThemeEditor() {
                 const prev = (idx - 1 + modalScreens.length) % modalScreens.length;
                 setActiveScreen(modalScreens[prev].key);
               }}
-              className="flex w-8 h-8 justify-center items-center rounded-full border border-[#EFEFEF] bg-[#FFF]"
+              className="flex w-8 h-8 justify-center items-center rounded-full border border-[#EFEFEF] bg-[#FFF] cursor-pointer"
             >
               <ChevronLeft size={20} />
             </button>
@@ -378,7 +379,7 @@ export default function ThemeEditor() {
                 const next = (idx + 1) % modalScreens.length;
                 setActiveScreen(modalScreens[next].key);
               }}
-              className="flex w-8 h-8 justify-center items-center rounded-full border border-[#EFEFEF] bg-[#FFF]"
+              className="flex w-8 h-8 justify-center items-center rounded-full border border-[#EFEFEF] bg-[#FFF] cursor-pointer"
             >
               <ChevronRight size={20} />
             </button>

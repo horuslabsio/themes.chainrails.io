@@ -618,6 +618,53 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
           </>
         );
 
+      case "depositInputAmount":
+        return (
+          <>
+            {renderHead(true, "Chainrails", "Complete your deposit")}
+            <div className="cr-add-amount flex flex-col gap-4" onMouseEnter={handleHover}>
+              <form
+                className="cr-amount-form bg-bg-000 relative flex flex-col items-start justify-center gap-2 self-stretch rounded-2xl px-4 py-3"
+                onMouseEnter={handleHover}
+              >
+                <label
+                  htmlFor="amount"
+                  className="cr-amount-label text-text-700 font-[inter] text-sm -tracking-[-0.24px] not-italic"
+                  onMouseEnter={handleHover}
+                >
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  name="amount"
+                  placeholder="0.00"
+                  className="cr-amount-input placeholder:text-text-800-alt text-text-900-alt -mt-2 mb-4 w-full appearance-none !border-none pl-[19px] font-[inter] !text-[58px] -tracking-[0.28px] !outline-none"
+                  defaultValue="50.00"
+                  onMouseEnter={handleHover}
+                />
+                <span
+                  className="cr-currency-symbol pointer-events-none absolute top-8 left-2 p-2 text-[20px] font-medium text-[#000]"
+                  onMouseEnter={handleHover}
+                >
+                  $
+                </span>
+                <span
+                  className="cr-minimum-notice pointer-events-none absolute bottom-1.5 left-2 cursor-pointer p-2 text-xs text-[#7b7b7b]"
+                  onMouseEnter={handleHover}
+                >
+                  Minimum: $0.1
+                </span>
+              </form>
+              <button
+                className="cr-deposit-proceed-button !h-10 w-full rounded-xl bg-blue-600 text-white font-medium"
+                onMouseEnter={handleHover}
+              >
+                Proceed
+              </button>
+            </div>
+          </>
+        );
+
       case "confirmation":
         return (
           <>
@@ -713,7 +760,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         ref={modalRef}
         layout
         transition={{ duration: 0.2, bounce: 20 }}
-        className="cr-payment-modal border-border-100 safe-bottom modal-container relative mx-auto flex w-screen max-w-113.5 flex-col gap-3 rounded-t-3xl border border-solid bg-[#F8F8F8] px-3 pt-3 md:rounded-b-3xl"
+        className="cr-payment-modal border-[#f2f2f2] safe-bottom modal-container relative mx-auto flex w-screen max-w-113.5 flex-col gap-3 rounded-t-3xl border border-solid bg-[#F8F8F8] px-3 pt-3 md:rounded-b-3xl"
         onMouseEnter={handleHover}
       >
         {renderScreen()}
