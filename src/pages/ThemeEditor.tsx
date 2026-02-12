@@ -336,6 +336,15 @@ export default function ThemeEditor() {
             <div className="scale-75 origin-bottom">
               <MockModal screen={activeScreen} customCss={css} />
             </div>
+            <div
+              className="fixed z-100 size-20 rounded-lg border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none"
+              style={{
+                left: "var(--left)",
+                top: "var(--top)",
+                width: "var(--width)",
+                height: "var(--height)",
+              }}
+            ></div>
           </div>
 
           <div className="flex items-center gap-1 pb-4 z-10 w-full justify-center">
