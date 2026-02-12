@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type { ThemeModalScreen } from "../types/theme";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef } from "react";
@@ -57,7 +58,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
       <div className="cr-payment-head flex max-w-full justify-between gap-2 text-center" onMouseEnter={handleHover}>
         <button
           className={`cr-nav-button relative grid shrink-0 cursor-pointer place-content-center border p-0 transition-all duration-200 ${
-            hasLogo ? "size-11.5 rounded-xl border-transparent" : "bg-bg-200 border-border-200 size-12 rounded-3xl"
+            hasLogo ? "size-11.5 rounded-xl border-transparent" : "bg-[#eee] border-[#eaeaea] size-12 rounded-3xl"
           }`}
           onMouseEnter={handleHover}
         >
@@ -74,15 +75,14 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
           </svg>
           {hasLogo && (
             <div
-              className="cr-app-icon absolute inset-0 size-11 transition duration-200 scale-100 opacity-100"
+              className="cr-app-icon absolute inset-0 size-11 transition duration-200 scale-100 opacity-100 rounded-lg overflow-hidden"
               onMouseEnter={handleHover}
             >
-              <div
-                className="cr-logo size-11.5 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold"
-                onMouseEnter={handleHover}
-              >
-                CR
-              </div>
+              <img
+                className="cr-logo-image"
+                src="https://dev.chainrails.io/api/v1/images/e33c5a93-a29e-4112-84eb-82ec685a5a14"
+                alt=""
+              />
             </div>
           )}
         </button>
@@ -111,7 +111,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         </motion.div>
 
         <button
-          className="cr-close-button border-border-200 bg-bg-200 grid size-12 cursor-pointer place-content-center rounded-full border p-3"
+          className="cr-close-button border-[#eaeaea] bg-[#eee] grid size-12 flex-shrink-0 cursor-pointer place-content-center rounded-full border p-3"
           title="Close"
           onMouseEnter={handleHover}
         >
@@ -121,7 +121,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         </button>
       </div>
 
-      <hr className="cr-divider bg-bg-100-alt h-0.25 border-none" onMouseEnter={handleHover} />
+      <hr className="cr-divider bg-[#f0f0f0] h-0.25 border-none" onMouseEnter={handleHover} />
     </>
   );
 
@@ -261,7 +261,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderFees(true)}
             </div>
             <div className="cr-wallet-list-container relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-wallet-list-title text-text-700/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+              <p className="cr-wallet-list-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
                 Select Wallet
               </p>
               <div className="cr-wallet-list flex max-h-[250px] flex-col gap-1 overflow-y-auto" onMouseEnter={handleHover}>
@@ -322,7 +322,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderFees(true)}
             </div>
             <div className="cr-chain-list-container relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-chain-list-title text-text-700/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+              <p className="cr-chain-list-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
                 Select Chain
               </p>
               <div className="cr-chain-list relative flex h-[250px] flex-col gap-1 overflow-y-auto" onMouseEnter={handleHover}>
@@ -335,7 +335,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 ].map((chain) => (
                   <div
                     key={chain.name}
-                    className="cr-chain-item flex max-h-12 cursor-pointer items-center justify-between gap-2 rounded-2xl px-4 py-2 bg-bg-100-alt"
+                    className="cr-chain-item flex max-h-12 cursor-pointer items-center justify-between gap-2 rounded-2xl px-4 py-2 bg-[#f0f0f0]"
                     onMouseEnter={handleHover}
                   >
                     <div className="cr-chain-item-content flex items-center gap-2" onMouseEnter={handleHover}>
@@ -400,19 +400,19 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   <h4 className="cr-refund-info-title text-brand-blue" onMouseEnter={handleHover}>
                     Refund Processing
                   </h4>
-                  <p className="cr-refund-info-text text-text-700 text-[11.5px]" onMouseEnter={handleHover}>
+                  <p className="cr-refund-info-text text-[#494949] text-[11.5px]" onMouseEnter={handleHover}>
                     In the event we encounter an issue processing your payment, we'd like to automatically refund. Below, enter
                     the Wallet Address you'd like to be refunded to.
                   </p>
                 </div>
               </div>
               <form
-                className="cr-refund-address-form bg-bg-000 relative flex flex-col items-start justify-center gap-1.5 self-stretch rounded-2xl px-4 py-2.5"
+                className="cr-refund-address-form bg-[#fff] relative flex flex-col items-start justify-center gap-1.5 self-stretch rounded-2xl px-4 py-2.5"
                 onMouseEnter={handleHover}
               >
                 <label
                   htmlFor="address"
-                  className="cr-refund-address-label text-text-700 font-[inter] text-[12px] -tracking-[-0.24px]"
+                  className="cr-refund-address-label text-[#494949] font-[inter] text-[12px] -tracking-[-0.24px]"
                   onMouseEnter={handleHover}
                 >
                   Enter Wallet Address
@@ -421,11 +421,11 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   type="text"
                   name="address"
                   placeholder="Type or Paste Address"
-                  className="cr-refund-address-input placeholder:text-text-800-alt text-text-900-alt w-full !border-none font-[inter] -tracking-[0.28px] !outline-none"
+                  className="cr-refund-address-input placeholder:text-text-[#a3a3a3] text-text-[#020818] w-full !border-none font-[inter] -tracking-[0.28px] !outline-none appearance-none"
                   onMouseEnter={handleHover}
                 />
                 <button
-                  className="cr-paste-button bg-bg-000 absolute right-2 bottom-2 size-8 cursor-pointer p-2"
+                  className="cr-paste-button bg-[#fff] absolute right-2 bottom-2 size-8 cursor-pointer p-2"
                   type="button"
                   onMouseEnter={handleHover}
                 >
@@ -531,7 +531,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderFees(true)}
             </div>
             <div className="cr-token-list-container relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-token-list-title text-text-700/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+              <p className="cr-token-list-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
                 Select Token
               </p>
               <div className="cr-token-list flex max-h-[250px] flex-col gap-1 overflow-y-auto" onMouseEnter={handleHover}>
@@ -624,12 +624,12 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             {renderHead(true, "Chainrails", "Complete your deposit")}
             <div className="cr-add-amount flex flex-col gap-4" onMouseEnter={handleHover}>
               <form
-                className="cr-amount-form bg-bg-000 relative flex flex-col items-start justify-center gap-2 self-stretch rounded-2xl px-4 py-3"
+                className="cr-amount-form bg-[#fff] relative flex flex-col items-start justify-center gap-2 self-stretch rounded-2xl px-4 py-3"
                 onMouseEnter={handleHover}
               >
                 <label
                   htmlFor="amount"
-                  className="cr-amount-label text-text-700 font-[inter] text-sm -tracking-[-0.24px] not-italic"
+                  className="cr-amount-label text-[#494949] font-[inter] text-sm -tracking-[-0.24px] not-italic"
                   onMouseEnter={handleHover}
                 >
                   Amount
@@ -638,25 +638,25 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   type="number"
                   name="amount"
                   placeholder="0.00"
-                  className="cr-amount-input placeholder:text-text-800-alt text-text-900-alt -mt-2 mb-4 w-full appearance-none !border-none pl-[19px] font-[inter] !text-[58px] -tracking-[0.28px] !outline-none"
+                  className="cr-amount-input placeholder:text-text-[#a3a3a3] text-text-[#020818] -mt-2 mb-4 w-full appearance-none !border-none pl-[19px] font-[inter] !text-[58px] -tracking-[0.28px] !outline-none"
                   defaultValue="50.00"
                   onMouseEnter={handleHover}
                 />
                 <span
-                  className="cr-currency-symbol pointer-events-none absolute top-8 left-2 p-2 text-[20px] font-medium text-[#000]"
+                  className="cr-currency-symbol absolute top-8 left-2 p-2 text-[20px] font-medium text-[#000]"
                   onMouseEnter={handleHover}
                 >
                   $
                 </span>
                 <span
-                  className="cr-minimum-notice pointer-events-none absolute bottom-1.5 left-2 cursor-pointer p-2 text-xs text-[#7b7b7b]"
+                  className="cr-minimum-notice absolute bottom-1.5 left-2 cursor-pointer p-2 text-xs text-[#7b7b7b]"
                   onMouseEnter={handleHover}
                 >
                   Minimum: $0.1
                 </span>
               </form>
               <button
-                className="cr-deposit-proceed-button !h-10 w-full rounded-xl bg-blue-600 text-white font-medium"
+                className="cr-deposit-proceed-button !h-10 w-full rounded-4xl  text-white font-medium bg-gradient-to-b from-[#2f2f2f] to-[#0b0b0b] button-shadow text-sm font-bold"
                 onMouseEnter={handleHover}
               >
                 Proceed
@@ -760,13 +760,13 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         ref={modalRef}
         layout
         transition={{ duration: 0.2, bounce: 20 }}
-        className="cr-payment-modal border-[#f2f2f2] safe-bottom modal-container relative mx-auto flex w-screen max-w-113.5 flex-col gap-3 rounded-t-3xl border border-solid bg-[#F8F8F8] px-3 pt-3 md:rounded-b-3xl"
+        className="cr-payment-modal border-[#f2f2f2] safe-bottom modal-container relative mx-auto flex w-screen max-w-113.5 flex-col gap-3 rounded-t-3xl border border-solid bg-[#F8F8F8] p-4 md:rounded-b-3xl"
         onMouseEnter={handleHover}
       >
         {renderScreen()}
-        <hr className="bg-bg-100-alt h-0.25 border-none" />
+        <hr className="bg-[#f0f0f0] h-0.25 border-none" />
         <div
-          className="cr-payment-footer text-text-700/60 flex items-center justify-center pb-1.5 text-xs"
+          className="cr-payment-footer text-[#494949]/60 flex items-center justify-center pb-1.5 text-xs"
           onMouseEnter={handleHover}
         >
           <p className="cr-powered-by-text" onMouseEnter={handleHover}>

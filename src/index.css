@@ -42,3 +42,21 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #d1d5db transparent;
 }
+
+.button-shadow {
+  box-shadow:
+    1px 2px 1px 0 rgba(143, 143, 143, 0.25) inset,
+    -1px -1px 1px 0 rgba(143, 143, 143, 0.25) inset;
+}
+
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Standard property */
+  }
+}

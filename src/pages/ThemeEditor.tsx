@@ -334,11 +334,11 @@ export default function ThemeEditor() {
           </Button>
 
           <div className="flex-1 flex items-end justify-center max-h-[666px] w-full pb-4 h-full overflow-hidden group pointer-events-none">
-            <div className="scale-75 origin-bottom pointer-events-auto">
+            <div className="scale-100 origin-bottom pointer-events-auto">
               <MockModal screen={activeScreen} customCss={css} />
             </div>
             <div
-              className="fixed z-100 size-20 rounded-lg border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none opacity-0 group-hover:opacity-100"
+              className="fixed z-100 size-20 border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none opacity-0 group-hover:opacity-100"
               style={{
                 left: "var(--left)",
                 top: "var(--top)",
