@@ -303,28 +303,46 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             {renderHead(false, "Chainrails", "Select Wallet")}
             <div className="cr-amount-fees-grid grid gap-0.75" onMouseEnter={handleHover}>
               {renderAmount(true, "Payment Amount")}
-              {renderFees(true)}
             </div>
-            <div className="cr-wallet-list-container relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-wallet-list-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
-                Select Wallet
-              </p>
-              <div className="cr-wallet-list flex max-h-[250px] flex-col gap-1 overflow-y-auto" onMouseEnter={handleHover}>
-                {["MetaMask", "WalletConnect", "Coinbase Wallet", "Rainbow", "Trust Wallet"].map((wallet, i) => (
+            <div className="cr-select-wallet relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
+              <p className="text-[#494949]/60 ml-2 text-sm text-[14px]">Select Wallet</p>
+              <div
+                className="cr-select-wallet-list flex max-h-[250px] flex-col gap-1 overflow-y-auto no-scrollbar"
+                onMouseEnter={handleHover}
+              >
+                {[
+                  {
+                    name: "MetaMask",
+                    image: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg",
+                  },
+                  {
+                    name: "Ready Wallet",
+                    image: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/argent.svg",
+                  },
+                  {
+                    name: "Braavos",
+                    image: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/braavos.svg",
+                  },
+                  {
+                    name: "Base Account",
+                    image: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/baseapp.webp",
+                  },
+                  {
+                    name: "Gemini Wallet",
+                    image: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/gemini.svg",
+                  },
+                ].map((wallet, i) => (
                   <motion.div
-                    key={wallet}
+                    key={wallet.name}
                     transition={{ bounce: 1, delay: i * 0.025, duration: 0.2 }}
-                    className="cr-wallet-item flex min-h-[56px] cursor-pointer items-center justify-between gap-2 rounded-2xl bg-[#F2F2F2] px-4 py-2"
+                    className="cr-select-wallet-item flex min-h-[56px] cursor-pointer items-center justify-between gap-2 rounded-2xl bg-[#F2F2F2] px-4 py-2"
                     onMouseEnter={handleHover}
                   >
-                    <div className="cr-wallet-item-content flex items-center gap-2" onMouseEnter={handleHover}>
-                      <div
-                        className="cr-wallet-icon size-7 overflow-clip rounded-[6px] bg-gradient-to-br from-orange-400 to-pink-500"
-                        onMouseEnter={handleHover}
-                      />
-                      <p className="cr-wallet-name text-[#2F2F2F]" onMouseEnter={handleHover}>
-                        {wallet}
-                      </p>
+                    <div className="cr-select-wallet-wallet flex items-center gap-2" onMouseEnter={handleHover}>
+                      <div className="size-7 overflow-clip rounded-[6px]">
+                        <img src={wallet.image} className="object-cover" alt={wallet.name} />
+                      </div>
+                      <p className="text-[#2F2F2F]">{wallet.name}</p>
                     </div>
                   </motion.div>
                 ))}
