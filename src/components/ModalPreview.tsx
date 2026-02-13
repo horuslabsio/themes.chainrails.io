@@ -355,23 +355,91 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         return (
           <>
             {renderHead(false, "Chainrails", "Connecting to Wallet")}
-            <div className="cr-amount-fees-grid grid gap-0.75" onMouseEnter={handleHover}>
-              {renderAmount(true, "Payment Amount")}
-              {renderFees(true)}
-            </div>
-            <div className="cr-connecting-wallet-container flex flex-col items-center gap-6 py-8" onMouseEnter={handleHover}>
-              <div
-                className="cr-wallet-connecting-icon size-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 animate-pulse"
+            <div
+              className="cr-connecting-wallet flex min-h-[250px] flex-col items-center justify-center pb-2"
+              onMouseEnter={handleHover}
+            >
+              <motion.div
+                initial={{
+                  height: "0px",
+                  opacity: 0,
+                }}
+                animate={{
+                  height: "46px",
+                  opacity: 1,
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeInOut",
+                  delay: 0.2,
+                }}
+                className="cr-connecting-wallet-animation mt-4 flex flex-col items-center text-[#017BFD]"
                 onMouseEnter={handleHover}
-              />
-              <div className="cr-connecting-wallet-content flex flex-col gap-2 text-center" onMouseEnter={handleHover}>
-                <p className="cr-connecting-wallet-title font-medium text-[#2F2F2F]" onMouseEnter={handleHover}>
-                  Connecting to MetaMask
-                </p>
-                <p className="cr-connecting-wallet-subtitle text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                  Please confirm in your wallet
+              >
+                <svg className="absolute" width="10" height="30" viewBox="0 0 10 30">
+                  <line x1="5" y1="0" x2="5" y2="30" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4">
+                    <animate attributeName="stroke-dashoffset" values="8;0" dur="0.7s" repeatCount="indefinite" />
+                  </line>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" className="mt-5 size-6">
+                  <path
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    d="M2.97 5.47a.75.75 0 0 1 1.06 0L8 9.44l3.97-3.97a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 0 1 0-1.06"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </motion.div>
+
+              <motion.div
+                layout
+                initial={{
+                  height: "200px",
+                  width: "200px",
+                }}
+                animate={{
+                  height: "140px",
+                  width: "140px",
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeInOut",
+                }}
+                className="cr-connecting-wallet-image overflow-clip rounded-[24px]"
+                onMouseEnter={handleHover}
+              >
+                <img
+                  src="https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg"
+                  alt="MetaMask"
+                  className="size-full rounded-[24px]"
+                />
+              </motion.div>
+
+              <div
+                className="cr-connecting-wallet-content mt-4 flex flex-col justify-center gap-3 pb-4 text-center"
+                onMouseEnter={handleHover}
+              >
+                <h2
+                  className="cr-connecting-wallet-title font-[inter] text-[1.25rem] leading-[106%] tracking-[-0.4px] text-[#494949] capitalize transition-all"
+                  onMouseEnter={handleHover}
+                >
+                  Requesting Connection
+                </h2>
+                <p
+                  className="cr-connecting-wallet-subtitle mx-auto max-w-[75%] text-[14px] text-[#45454599]"
+                  onMouseEnter={handleHover}
+                >
+                  Open the MetaMask extension to grant permission.
                 </p>
               </div>
+
+              {/* Open wallet button */}
+              <button
+                className="cr-connecting-wallet-cta w-full cursor-pointer rounded-2xl bg-[#F2F2F2] p-3 text-[#2F2F2F]"
+                onMouseEnter={handleHover}
+              >
+                Open MetaMask
+              </button>
             </div>
           </>
         );
