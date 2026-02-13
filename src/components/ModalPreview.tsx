@@ -127,8 +127,8 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
 
   const renderAmount = (compact: boolean, label: string = "Amount") => (
     <div
-      className={`cr-amount-container relative flex flex-col items-start gap-4 bg-white p-4 ${
-        compact ? "rounded-2xl pb-4" : "rounded-3xl pb-23.25"
+      className={`cr-amount-container relative flex flex-col items-start gap-4 bg-white px-4 py-3 ${
+        compact ? "rounded-2xl pb-3" : "rounded-3xl pb-23.25"
       }`}
       onMouseEnter={handleHover}
     >
@@ -659,42 +659,117 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             {renderHead(false, "Chainrails", "Select Token")}
             <div className="cr-amount-fees-grid grid gap-0.75" onMouseEnter={handleHover}>
               {renderAmount(true, "Payment Amount")}
-              {renderFees(true)}
             </div>
-            <div className="cr-token-list-container relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-token-list-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
-                Select Token
-              </p>
-              <div className="cr-token-list flex max-h-[250px] flex-col gap-1 overflow-y-auto" onMouseEnter={handleHover}>
-                {[
-                  { token: "USDC", chain: "Ethereum", balance: "1,234.56" },
-                  { token: "USDC", chain: "Polygon", balance: "567.89" },
-                  { token: "USDT", chain: "Ethereum", balance: "890.12" },
-                ].map((item) => (
-                  <div
-                    key={`${item.token}-${item.chain}`}
-                    className="cr-token-item flex min-h-[56px] cursor-pointer items-center justify-between gap-2 rounded-2xl bg-[#F2F2F2] px-4 py-2"
+            <div className="cr-transfer-with-wallet flex min-h-[250px] flex-col gap-4" onMouseEnter={handleHover}>
+              {/* Connected Wallet */}
+              <div
+                className="cr-connected-wallet -mt-2 flex items-center justify-between rounded-3xl bg-white px-4 py-3.5"
+                onMouseEnter={handleHover}
+              >
+                <p className="cr-connect-wallet-status text-[14px] text-[#494949]" onMouseEnter={handleHover}>
+                  Wallet Connected
+                </p>
+                <div className="cr-connect-wallet-info flex items-center gap-2" onMouseEnter={handleHover}>
+                  <img
+                    src="https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg"
+                    className="cr-connect-wallet-icon size-6"
+                    alt="wallet"
+                    onMouseEnter={handleHover}
+                  />
+                  <p
+                    className="cr-connect-wallet-address text-sm leading-[106%] tracking-[-1.16px] text-[#2F2F2F]"
                     onMouseEnter={handleHover}
                   >
-                    <div className="cr-token-item-content flex items-center gap-3" onMouseEnter={handleHover}>
-                      <div
-                        className="cr-token-icon size-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500"
-                        onMouseEnter={handleHover}
-                      />
-                      <div className="cr-token-info flex flex-col" onMouseEnter={handleHover}>
-                        <p className="cr-token-symbol font-medium text-[#2F2F2F]" onMouseEnter={handleHover}>
-                          {item.token}
-                        </p>
-                        <p className="cr-token-chain text-xs text-[#6D6D6D]" onMouseEnter={handleHover}>
-                          {item.chain}
+                    0x1234...5678
+                  </p>
+                  <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      className="cr-connect-wallet-disconnect fill-[#CF0003]"
+                      d="M7.5 1.33C7.96 1.33 8.33 1.71 8.33 2.17V3C8.33 3.46 7.96 3.83 7.5 3.83C7.04 3.83 6.67 3.46 6.67 3V2.17C6.67 1.71 7.04 1.33 7.5 1.33ZM10.78 2.81C11.58 2.32 12.59 2.32 13.39 2.81C13.64 2.96 13.88 3.2 14.15 3.47L16.97 6.3C17.3 6.62 17.69 7.11 17.69 7.11C18.18 7.91 18.18 8.92 17.69 9.72L15.59 11.92C15.26 12.25 14.74 12.25 14.41 11.92C14.09 11.6 14.09 11.07 14.41 10.74L15.8 9.36C16.16 9 16.23 8.91 16.27 8.85C16.43 8.58 16.43 8.25 16.27 7.98C16.23 7.92 16.16 7.84 15.8 7.47L13.03 4.7L11.14 4.7L9.76 6.09C9.43 6.41 8.9 6.41 8.58 6.09C8.25 5.76 8.25 5.24 8.58 4.91L9.96 3.53C10.29 3.2 10.52 2.96 10.78 2.81ZM2.33 2.83C2.65 2.5 3.18 2.5 3.51 2.83L4.34 3.66C4.66 3.99 4.66 4.51 4.34 4.84C4.01 5.16 3.49 5.16 3.16 4.84L2.33 4.01C2 3.68 2 3.15 2.33 2.83ZM0.83 8C0.83 7.54 1.21 7.17 1.67 7.17H2.5C2.96 7.17 3.33 7.54 3.33 8C3.33 8.46 2.96 8.83 2.5 8.83H1.67C1.21 8.83 0.83 8.46 0.83 8ZM5.59 9.08C5.91 9.4 5.91 9.93 5.59 10.26L4.2 11.64C3.84 12 3.77 12.08 3.73 12.15C3.57 12.42 3.57 12.75 3.73 13.02C3.77 13.08 3.84 13.16 4.2 13.53L6.97 16.3C7.34 16.66 7.42 16.73 7.48 16.77C7.75 16.93 8.08 16.93 8.35 16.77C8.41 16.73 8.5 16.66 8.86 16.3L10.24 14.91C10.57 14.59 11.1 14.59 11.42 14.91C11.75 15.24 11.75 15.76 11.42 16.09L10.04 17.47C9.71 17.8 9.48 18.03 9.22 18.19C8.42 18.68 7.41 18.68 6.61 18.19C6.36 18.03 6.12 17.8 5.85 17.53L3.03 14.7C2.7 14.38 2.46 14.14 2.31 13.89C1.82 13.09 1.82 12.08 2.31 11.28C2.46 11.02 2.7 10.79 2.97 10.52L4.41 9.08C4.74 8.75 5.26 8.75 5.59 9.08ZM16.67 13C16.67 12.54 17.04 12.17 17.5 12.17H18.33C18.79 12.17 19.17 12.54 19.17 13C19.17 13.46 18.79 13.83 18.33 13.83H17.5C17.04 13.83 16.67 13.46 16.67 13ZM15.66 16.16C15.99 15.84 16.51 15.84 16.84 16.16L17.67 17C18 17.32 18 17.85 17.67 18.17C17.35 18.5 16.82 18.5 16.49 18.17L15.66 17.34C15.34 17.01 15.34 16.49 15.66 16.16ZM12.5 17.17C12.96 17.17 13.33 17.54 13.33 18V18.83C13.33 19.29 12.96 19.67 12.5 19.67C12.04 19.67 11.67 19.29 11.67 18.83V18C11.67 17.54 12.04 17.17 12.5 17.17Z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Select Payment Token */}
+              <div className="cr-select-wallet-token" onMouseEnter={handleHover}>
+                <p
+                  className="cr-select-wallet-token-text text-[#494949]/60 mb-4 ml-2 text-sm text-[14px]"
+                  onMouseEnter={handleHover}
+                >
+                  Select Payment Token
+                </p>
+                <div
+                  className="cr-wallet-token-list flex max-h-[268px] flex-col gap-1 overflow-y-auto"
+                  onMouseEnter={handleHover}
+                >
+                  {[
+                    {
+                      tokenSymbol: "USDC",
+                      chainName: "Ethereum",
+                      chainLogo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
+                      tokenLogo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                      balance: "1,234.56",
+                      payAmount: "50.50",
+                      lowBalance: false,
+                    },
+                    {
+                      tokenSymbol: "USDC",
+                      chainName: "Base",
+                      chainLogo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/base.webp",
+                      tokenLogo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                      balance: "567.89",
+                      payAmount: "50.25",
+                      lowBalance: false,
+                    },
+                    {
+                      tokenSymbol: "USDC",
+                      chainName: "Arbitrum",
+                      chainLogo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/arbitrum.svg",
+                      tokenLogo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                      balance: "23.45",
+                      payAmount: "50.30",
+                      lowBalance: true,
+                    },
+                  ].map((item) => (
+                    <button
+                      key={`${item.tokenSymbol}-${item.chainName}`}
+                      className={clsx(
+                        "cr-wallet-token-item flex max-h-12 cursor-pointer justify-between rounded-2xl bg-[#F2F2F2] py-1.5 pr-3 pl-4 text-[#2F2F2F]",
+                        item.lowBalance ? "opacity-50 cursor-not-allowed" : "opacity-100",
+                      )}
+                      onMouseEnter={handleHover}
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="cr-wallet-token-item-image relative size-6 rounded-[6px]" onMouseEnter={handleHover}>
+                          <img src={item.tokenLogo} alt={item.tokenSymbol} className="size-full rounded-full object-cover" />
+                          <div className="absolute -right-[1px] -bottom-[1px] z-10 size-3 rounded-full">
+                            <img src={item.chainLogo} alt={item.chainName} className="size-3 rounded-full object-cover" />
+                          </div>
+                        </div>
+                        <p className="cr-wallet-token-item-name text-base" onMouseEnter={handleHover}>
+                          {item.tokenSymbol} on <span>{item.chainName}</span>
                         </p>
                       </div>
-                    </div>
-                    <p className="cr-token-balance text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                      {item.balance}
-                    </p>
-                  </div>
-                ))}
+                      <div className="cr-wallet-token-item-amounts flex flex-col items-end text-sm" onMouseEnter={handleHover}>
+                        <p className="cr-wallet-token-item-amount text-[#2F2F2F]" onMouseEnter={handleHover}>
+                          {item.payAmount} {item.tokenSymbol}
+                        </p>
+                        <p
+                          className={clsx(
+                            "cr-wallet-token-item-balance flex items-center gap-1 text-xs",
+                            item.lowBalance ? "text-[#CF0003]" : "text-[#6D6D6D]",
+                          )}
+                          onMouseEnter={handleHover}
+                        >
+                          Balance: {item.balance} {item.tokenSymbol}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </>
