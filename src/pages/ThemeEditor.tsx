@@ -334,7 +334,7 @@ export default function ThemeEditor() {
           </Button>
 
           <div className="flex-1 flex items-end justify-center max-h-[666px] w-full pb-4 h-full overflow-hidden group pointer-events-none">
-            <div className="scale-100 origin-bottom pointer-events-auto">
+            <div className="scale-90 origin-bottom pointer-events-auto">
               <MockModal screen={activeScreen} customCss={css} />
             </div>
             <div

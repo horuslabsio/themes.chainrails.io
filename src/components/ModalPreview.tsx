@@ -160,7 +160,6 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
           className="cr-fees-value flex w-fit items-center gap-2 text-right font-[inter] text-[16px] leading-[106%] font-medium tracking-[-1.16px]"
           onMouseEnter={handleHover}
         >
-          <div className="size-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">U</div>
           <span>0.50 USDC</span>
         </p>
       </div>
@@ -733,6 +732,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         );
 
       case "transferToAddress":
+        // Structure and styles match frontend TransferToAddress
         return (
           <>
             {renderHead(true, "Chainrails", "Make your Payment")}
@@ -740,72 +740,92 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderAmount(true)}
               {renderFees(true)}
             </div>
-            <div className="cr-transfer-to-address-container flex flex-col gap-4" onMouseEnter={handleHover}>
+            <div className="cr-transfer flex flex-col gap-3" onMouseEnter={handleHover}>
               <div
-                className="cr-qr-code-container bg-white rounded-2xl p-6 flex items-center justify-center"
+                className="cr-transfer-qr qr darkmode:!bg-[#1B1B1B] darkmode:!border darkmode:!border-[#202020] h-36 w-full rounded-[24px] bg-white p-2.5 flex items-center justify-center"
                 onMouseEnter={handleHover}
               >
-                <div
-                  className="cr-qr-code size-48 bg-gray-900 rounded-xl flex items-center justify-center"
-                  onMouseEnter={handleHover}
-                >
-                  <div className="cr-qr-code-placeholder text-white text-xs text-center" onMouseEnter={handleHover}>
-                    QR CODE
-                  </div>
-                </div>
+                <div className="bg-[#f2f2f2] size-31 rounded-xl"></div>
               </div>
-              <div className="cr-payment-details bg-white rounded-2xl p-4 flex flex-col gap-3" onMouseEnter={handleHover}>
-                <div className="cr-payment-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                  <p className="cr-payment-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Network
-                  </p>
-                  <div className="cr-payment-detail-value flex items-center gap-2" onMouseEnter={handleHover}>
-                    <div className="cr-network-icon size-5 rounded-full bg-purple-500" onMouseEnter={handleHover} />
-                    <p className="cr-network-name font-medium" onMouseEnter={handleHover}>
-                      Ethereum
-                    </p>
-                  </div>
-                </div>
-                <div className="cr-payment-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                  <p className="cr-payment-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Token
-                  </p>
-                  <div className="cr-payment-detail-value flex items-center gap-2" onMouseEnter={handleHover}>
-                    <div className="cr-token-icon size-5 rounded-full bg-blue-500" onMouseEnter={handleHover} />
-                    <p className="cr-token-name font-medium" onMouseEnter={handleHover}>
-                      USDC
-                    </p>
-                  </div>
-                </div>
-                <div className="cr-payment-detail-item cr-address-detail flex flex-col gap-1" onMouseEnter={handleHover}>
-                  <p className="cr-payment-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Address
-                  </p>
-                  <div
-                    className="cr-address-container flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2"
-                    onMouseEnter={handleHover}
-                  >
-                    <p className="cr-address-value text-xs font-mono flex-1 truncate" onMouseEnter={handleHover}>
-                      0x1234...5678
-                    </p>
-                    <button className="cr-copy-button p-1" onMouseEnter={handleHover}>
-                      <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" strokeWidth="2" />
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" strokeWidth="2" />
+              <p className="cr-transfer-text text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+                Payment Details
+              </p>
+              <div
+                className="cr-transfer-details darkmode:!bg-[#1b1b1b] darkmode:!border darkmode:!border-[#202020] darkmode:!divide-[#202020] divide-y divide-[#E6E6E6] rounded-[24px] bg-[#F2F2F2] px-3 py-4 text-sm text-[#7B7B7B]"
+                onMouseEnter={handleHover}
+              >
+                <div className="cr-transfer-detail flex items-center justify-between pb-3" onMouseEnter={handleHover}>
+                  <p>Send Exactly</p>
+                  <p className="flex items-center gap-2">
+                    <span className="cr-transfer-value darkmode:!text-[#FFFFFF] text-[#020818]" onMouseEnter={handleHover}>
+                      50.50 USDC
+                    </span>
+                    <button>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M5.16667 5.16667V4.5C5.16667 3.39543 6.0621 2.5 7.16667 2.5H11.5C12.6046 2.5 13.5 3.39543 13.5 4.5V8.84C13.5 9.94457 12.6046 10.84 11.5 10.84H10.8333M2.5 7.16667V11.5C2.5 12.6046 3.39543 13.5 4.5 13.5H8.83333C9.9379 13.5 10.8333 12.6046 10.8333 11.5V7.16667C10.8333 6.0621 9.9379 5.16667 8.83333 5.16667H4.5C3.39543 5.16667 2.5 6.0621 2.5 7.16667Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
                       </svg>
                     </button>
-                  </div>
-                </div>
-                <div className="cr-payment-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                  <p className="cr-payment-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Amount
                   </p>
-                  <p className="cr-payment-detail-value cr-amount font-medium" onMouseEnter={handleHover}>
-                    50.50 USDC
+                </div>
+                <div className="cr-transfer-detail flex items-center justify-between py-2.5" onMouseEnter={handleHover}>
+                  <p>To</p>
+                  <p className="flex items-center gap-2">
+                    <span className="cr-transfer-value darkmode:!text-[#FFFFFF] text-[#020818]" onMouseEnter={handleHover}>
+                      0x92BC8568A...4e66B
+                    </span>
+                    <button>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M5.16667 5.16667V4.5C5.16667 3.39543 6.0621 2.5 7.16667 2.5H11.5C12.6046 2.5 13.5 3.39543 13.5 4.5V8.84C13.5 9.94457 12.6046 10.84 11.5 10.84H10.8333M2.5 7.16667V11.5C2.5 12.6046 3.39543 13.5 4.5 13.5H8.83333C9.9379 13.5 10.8333 12.6046 10.8333 11.5V7.16667C10.8333 6.0621 9.9379 5.16667 8.83333 5.16667H4.5C3.39543 5.16667 2.5 6.0621 2.5 7.16667Z"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </button>
+                  </p>
+                </div>
+                <div className="cr-transfer-detail flex items-center justify-between pt-3" onMouseEnter={handleHover}>
+                  <p>Expires In</p>
+                  <p className="flex items-center gap-1">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="cr-select-chain-hourglass size-3 shrink-0 transition-transform duration-200 text-[#6d6d6d]"
+                      onMouseEnter={handleHover}
+                    >
+                      <path
+                        d="M6 6L3.20275 4.17103C2.92026 3.98632 2.75 3.67158 2.75 3.33406V1.25H9.25V3.33406C9.25 3.67158 9.07974 3.98632 8.79725 4.17103L6 6ZM6 6L8.79725 7.82897C9.07974 8.01368 9.25 8.32842 9.25 8.66594V10.75H2.75V8.66594C2.75 8.32842 2.92026 8.01368 3.20275 7.82897L6 6ZM10.25 10.75H1.75M10.25 1.25H1.75"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                    <span
+                      className="cr-transfer-value darkmode:!text-[#FFFFFF] text-[#020818] tabular-nums"
+                      onMouseEnter={handleHover}
+                    >
+                      05:00
+                    </span>
                   </p>
                 </div>
               </div>
+              {/* CTA Button */}
+              <button className="cr-button mt-3 min-h-[40px] w-full rounded-4xl text-white bg-gradient-to-b from-[#2f2f2f] to-[#0b0b0b] button-shadow text-sm">
+                I have made this payment
+              </button>
             </div>
+            {/* Status and TransactionDetails (shown after payment) would go here, if needed for preview */}
           </>
         );
 
