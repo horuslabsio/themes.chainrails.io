@@ -654,15 +654,14 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             {renderHead(false, "Chainrails", "Add Refund Address")}
             <div className="cr-amount-fees-grid grid gap-0.75" onMouseEnter={handleHover}>
               {renderAmount(true, "Payment Amount")}
-              {renderFees(true)}
             </div>
-            <div className="cr-refund-address-container flex flex-col gap-4" onMouseEnter={handleHover}>
+            <div className="cr-refund flex flex-col gap-4" onMouseEnter={handleHover}>
               <div
-                className="cr-refund-info-box bg-brand-lightblue flex w-full items-start gap-3 rounded-2xl p-4 pr-7"
+                className="cr-refund-info bg-[#e5eff9] flex w-full items-start gap-3 rounded-2xl p-4 pr-7"
                 onMouseEnter={handleHover}
               >
                 <svg
-                  className="cr-refund-info-icon text-brand-blue mt-0.75 shrink-0 size-5"
+                  className="cr-refund-info-icon text-[#0869dc] mt-0.75 shrink-0 size-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -675,7 +674,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   className="cr-refund-info-content -mt-1 font-[inter] text-[12px] -tracking-[0.24px]"
                   onMouseEnter={handleHover}
                 >
-                  <h4 className="cr-refund-info-title text-brand-blue" onMouseEnter={handleHover}>
+                  <h4 className="cr-refund-info-title text-[#0869dc]" onMouseEnter={handleHover}>
                     Refund Processing
                   </h4>
                   <p className="cr-refund-info-text text-[#494949] text-[11.5px]" onMouseEnter={handleHover}>
@@ -685,7 +684,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 </div>
               </div>
               <form
-                className="cr-refund-address-form bg-[#fff] relative flex flex-col items-start justify-center gap-1.5 self-stretch rounded-2xl px-4 py-2.5"
+                className="cr-refund-address bg-[#fff] relative flex flex-col items-start justify-center gap-1.5 self-stretch rounded-2xl px-4 py-2.5"
                 onMouseEnter={handleHover}
               >
                 <label
@@ -703,18 +702,28 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   onMouseEnter={handleHover}
                 />
                 <button
-                  className="cr-paste-button bg-[#fff] absolute right-2 bottom-2 size-8 cursor-pointer p-2"
+                  className="cr-refund-address-paste bg-[#fff] absolute right-2 bottom-2 size-8 cursor-pointer p-2"
                   type="button"
                   onMouseEnter={handleHover}
                 >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" strokeWidth="2" />
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" strokeWidth="2" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M10.5 2H11.5C11.8978 2 12.2794 2.15804 12.5607 2.43934C12.842 2.72064 13 3.10218 13 3.5V13.5C13 13.8978 12.842 14.2794 12.5607 14.5607C12.2794 14.842 11.8978 15 11.5 15H4.5C4.10218 15 3.72064 14.842 3.43934 14.5607C3.15804 14.2794 3 13.8978 3 13.5V3.5C3 3.10218 3.15804 2.72064 3.43934 2.43934C3.72064 2.15804 4.10218 2 4.5 2H5.5"
+                      stroke="#1652F0"
+                      stroke-width="1.25"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M9.68344 1H6.31656C5.86559 1 5.5 1.36559 5.5 1.81656V2.18344C5.5 2.63441 5.86559 3 6.31656 3H9.68344C10.1344 3 10.5 2.63441 10.5 2.18344V1.81656C10.5 1.36559 10.1344 1 9.68344 1Z"
+                      stroke="#1652F0"
+                      stroke-linejoin="round"
+                      stroke-width="1.25"
+                    ></path>
                   </svg>
                 </button>
               </form>
               <button
-                className="cr-refund-submit-button !h-10 w-full rounded-xl bg-blue-600 text-white font-medium"
+                className="cr-button !h-10 w-full rounded-4xl  text-white bg-gradient-to-b from-[#2f2f2f] to-[#0b0b0b] button-shadow text-sm"
                 onMouseEnter={handleHover}
               >
                 Skip
