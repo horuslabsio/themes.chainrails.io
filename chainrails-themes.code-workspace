@@ -6,6 +6,12 @@
     {
       "path": ".",
     },
+    {
+      "path": "../chainrails-dashboard",
+    },
+    {
+      "path": "../chainrails-backend",
+    },
   ],
   "settings": {},
 }

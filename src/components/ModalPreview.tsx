@@ -235,7 +235,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                         direction="right"
-                        className="darkmode:!text-[#fff] size-4 text-[#000] transition-all duration-200 group-hover/cpo:size-6"
+                        className="size-4 text-[#000] transition-all duration-200 group-hover/cpo:size-6"
                         style={{ transform: "rotate(180deg)" }}
                       >
                         <path
@@ -278,7 +278,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                         direction="right"
-                        className="darkmode:!text-[#fff] size-4 text-[#000] transition-all duration-200 group-hover/cpo:size-6"
+                        className="size-4 text-[#000] transition-all duration-200 group-hover/cpo:size-6"
                         style={{ transform: "rotate(180deg)" }}
                       >
                         <path
@@ -742,7 +742,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             </div>
             <div className="cr-transfer flex flex-col gap-3" onMouseEnter={handleHover}>
               <div
-                className="cr-transfer-qr qr darkmode:!bg-[#1B1B1B] darkmode:!border darkmode:!border-[#202020] h-36 w-full rounded-[24px] bg-white p-2.5 flex items-center justify-center"
+                className="cr-transfer-qr qr h-36 w-full rounded-[24px] bg-white p-2.5 flex items-center justify-center"
                 onMouseEnter={handleHover}
               >
                 <div className="bg-[#f2f2f2] size-31 rounded-xl"></div>
@@ -751,13 +751,13 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 Payment Details
               </p>
               <div
-                className="cr-transfer-details darkmode:!bg-[#1b1b1b] darkmode:!border darkmode:!border-[#202020] darkmode:!divide-[#202020] divide-y divide-[#E6E6E6] rounded-[24px] bg-[#F2F2F2] px-3 py-4 text-sm text-[#7B7B7B]"
+                className="cr-transfer-details divide-y divide-[#E6E6E6] rounded-[24px] bg-[#F2F2F2] px-3 py-4 text-sm text-[#7B7B7B]"
                 onMouseEnter={handleHover}
               >
                 <div className="cr-transfer-detail flex items-center justify-between pb-3" onMouseEnter={handleHover}>
                   <p>Send Exactly</p>
                   <p className="flex items-center gap-2">
-                    <span className="cr-transfer-value darkmode:!text-[#FFFFFF] text-[#020818]" onMouseEnter={handleHover}>
+                    <span className="cr-transfer-value text-[#020818]" onMouseEnter={handleHover}>
                       50.50 USDC
                     </span>
                     <button>
@@ -776,7 +776,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 <div className="cr-transfer-detail flex items-center justify-between py-2.5" onMouseEnter={handleHover}>
                   <p>To</p>
                   <p className="flex items-center gap-2">
-                    <span className="cr-transfer-value darkmode:!text-[#FFFFFF] text-[#020818]" onMouseEnter={handleHover}>
+                    <span className="cr-transfer-value text-[#020818]" onMouseEnter={handleHover}>
                       0x92BC8568A...4e66B
                     </span>
                     <button>
@@ -811,10 +811,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                         stroke-linejoin="round"
                       ></path>
                     </svg>
-                    <span
-                      className="cr-transfer-value darkmode:!text-[#FFFFFF] text-[#020818] tabular-nums"
-                      onMouseEnter={handleHover}
-                    >
+                    <span className="cr-transfer-value text-[#020818] tabular-nums" onMouseEnter={handleHover}>
                       05:00
                     </span>
                   </p>
@@ -973,7 +970,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={0.75}
-                    className="cr-initiating-loader-path darkmode:!stroke-[#FFFFFF99] animate-pulse stroke-[#45454599] duration-1000"
+                    className="cr-initiating-loader-path animate-pulse stroke-[#45454599] duration-1000"
                     d="M12 6V3m4.25 4.75L18.4 5.6M18 12h3m-4.75 4.25l2.15 2.15M12 18v3m-4.25-4.75L5.6 18.4M6 12H3m4.75-4.25L5.6 5.6"
                   ></path>
                 </svg>
@@ -1055,7 +1052,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
       case "confirmation":
         return (
           <>
-            {renderHead(true, "Chainrails", "Payment Processing...")}
+            {renderHead(true, "Chainrails", "Make your Payment")}
             <AnimatePresence>
               <motion.div
                 initial={{ opacity: 0 }}
@@ -1064,68 +1061,117 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 transition={{ bounce: 0.1, duration: 0.15, ease: "easeOut" }}
                 onMouseEnter={handleHover}
               >
-                <div className="cr-status-container flex flex-col items-center gap-4 py-8" onMouseEnter={handleHover}>
-                  <div
-                    className="cr-status-icon-wrapper size-16 rounded-full bg-yellow-100 flex items-center justify-center"
-                    onMouseEnter={handleHover}
-                  >
-                    <div
-                      className="cr-status-icon size-12 rounded-full bg-yellow-500 flex items-center justify-center animate-spin"
-                      onMouseEnter={handleHover}
-                    >
+                {/* Status stepper, match PaymentModal Status */}
+                <div className="flex flex-col gap-3 rounded-2xl p-4 bg-white">
+                  <p className="flex items-center gap-1 text-sm tracking-[-0.28px] text-[#8A8A8A]">
+                    <span>
                       <svg
-                        className="cr-status-spinner size-6 text-white"
-                        viewBox="0 0 24 24"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
                         fill="none"
-                        stroke="currentColor"
-                        onMouseEnter={handleHover}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="size-3"
                       >
                         <path
-                          d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"
-                          strokeWidth="2"
+                          d="M6 6L3.20275 4.17103C2.92026 3.98632 2.75 3.67158 2.75 3.33406V1.25H9.25V3.33406C9.25 3.67158 9.07974 3.98632 8.79725 4.17103L6 6ZM6 6L8.79725 7.82897C9.07974 8.01368 9.25 8.32842 9.25 8.66594V10.75H2.75V8.66594C2.75 8.32842 2.92026 8.01368 3.20275 7.82897L6 6ZM10.25 10.75H1.75M10.25 1.25H1.75"
+                          stroke="currentColor"
                           strokeLinecap="round"
-                        />
+                          strokeLinejoin="round"
+                        ></path>
                       </svg>
+                    </span>
+                    <span>Status:</span>
+                    <span className="font-semibold text-[#020818] capitalize">processing</span>
+                  </p>
+                  {/* Stepper bar */}
+                  <div className="relative w-full max-w-md">
+                    <div className="absolute top-1/2 z-10 flex w-full -translate-y-1/2 justify-between">
+                      <div className="flex size-6 items-center justify-center rounded-full p-1 bg-[#017BFD] text-white">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          className="rotate-0 transition-all delay-0 duration-300"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M14 8.00009C14 7.86749 13.9473 7.74031 13.8536 7.64654L9.68689 3.47986C9.49163 3.2846 9.17504 3.2846 8.97978 3.47986C8.78452 3.67512 8.78452 3.9917 8.97978 4.18697L12.2929 7.50009L2.5 7.50009C2.22386 7.50009 2 7.72395 2 8.00009C2 8.27624 2.22386 8.50009 2.5 8.50009H12.2929L8.97978 11.8132C8.78452 12.0085 8.78452 12.325 8.97978 12.5203C9.17504 12.7156 9.49162 12.7156 9.68689 12.5203L13.8536 8.35365C13.9473 8.25988 14 8.1327 14 8.00009Z"
+                            fill="currentColor"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div className="flex size-6 items-center justify-center rounded-full bg-[#EFEFEF] text-[#7C7C7C]">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          fill="none"
+                          className="transition-all delay-300 duration-300"
+                        >
+                          <path
+                            d="M14.5 10H12.5V6.33375C12.9807 6.92669 13.6044 7.38742 14.3125 7.6725C14.4349 7.71966 14.5709 7.71684 14.6912 7.66464C14.8116 7.61244 14.9066 7.51505 14.9558 7.39346C15.005 7.27187 15.0044 7.13582 14.9542 7.01464C14.904 6.89345 14.8083 6.79684 14.6875 6.74563C14.0399 6.48568 13.4853 6.03739 13.0953 5.45876C12.7053 4.88013 12.4979 4.19778 12.5 3.5C12.5 3.36739 12.4473 3.24021 12.3536 3.14645C12.2598 3.05268 12.1326 3 12 3C11.8674 3 11.7402 3.05268 11.6464 3.14645C11.5527 3.24021 11.5 3.36739 11.5 3.5C11.5 4.42826 11.1313 5.3185 10.4749 5.97487C9.8185 6.63125 8.92826 7 8 7C7.07174 7 6.1815 6.63125 5.52513 5.97487C4.86875 5.3185 4.5 4.42826 4.5 3.5C4.5 3.36739 4.44732 3.24021 4.35355 3.14645C4.25979 3.05268 4.13261 3 4 3C3.86739 3 3.74021 3.05268 3.64645 3.14645C3.55268 3.24021 3.5 3.36739 3.5 3.5C3.50206 4.19778 3.29469 4.88013 2.9047 5.45876C2.51471 6.03739 1.96006 6.48568 1.3125 6.74563C1.19175 6.79684 1.09595 6.89345 1.04577 7.01464C0.995584 7.13582 0.995029 7.27187 1.04422 7.39346C1.09342 7.51505 1.18842 7.61244 1.30875 7.66464C1.42908 7.71684 1.56511 7.71966 1.6875 7.6725C2.39556 7.38742 3.01934 6.92669 3.5 6.33375V10H1.5C1.36739 10 1.24021 10.0527 1.14645 10.1464C1.05268 10.2402 1 10.3674 1 10.5C1 10.6326 1.05268 10.7598 1.14645 10.8536C1.24021 10.9473 1.36739 11 1.5 11H3.5V12.5C3.5 12.6326 3.55268 12.7598 3.64645 12.8536C3.74021 12.9473 3.86739 13 4 13C4.13261 13 4.25979 12.9473 4.35355 12.8536C4.44732 12.7598 4.5 12.6326 4.5 12.5V11H11.5V12.5C11.5 12.6326 11.5527 12.7598 11.6464 12.8536C11.7402 12.9473 11.8674 13 12 13C12.1326 13 12.2598 12.9473 12.3536 12.8536C12.4473 12.7598 12.5 12.6326 12.5 12.5V11H14.5C14.6326 11 14.7598 10.9473 14.8536 10.8536C14.9473 10.7598 15 10.6326 15 10.5C15 10.3674 14.9473 10.2402 14.8536 10.1464C14.7598 10.0527 14.6326 10 14.5 10ZM9 7.8875V10H7V7.8875C7.65823 8.03752 8.34177 8.03752 9 7.8875ZM4.5 6.325C4.90804 6.82919 5.41956 7.2399 6 7.52938V10H4.5V6.325ZM10 10V7.53C10.5804 7.24053 11.092 6.82981 11.5 6.32562V10H10Z"
+                            fill="currentColor"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div className="flex size-6 items-center justify-center rounded-full bg-[#EFEFEF] text-[#7C7C7C]">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          className="transition-all delay-300 duration-300"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M12.5948 1.86259C12.8548 2.05281 12.9114 2.4178 12.7211 2.67781L5.8927 12.0111C5.79898 12.1392 5.65711 12.2236 5.49981 12.2448C5.3425 12.266 5.18336 12.2222 5.05908 12.1235L1.38751 9.20679C1.13525 9.0064 1.0932 8.63946 1.29359 8.3872C1.49399 8.13494 1.86093 8.09289 2.11319 8.29329L5.30951 10.8324L11.7796 1.98894C11.9698 1.72893 12.3348 1.67236 12.5948 1.86259Z"
+                            fill="currentColor"
+                          ></path>
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                  <div className="cr-status-content flex flex-col gap-2 text-center" onMouseEnter={handleHover}>
-                    <p className="cr-status-title font-medium text-lg" onMouseEnter={handleHover}>
-                      Processing Payment
-                    </p>
-                    <p className="cr-status-subtitle text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                      This may take a few moments...
-                    </p>
+                    <div className="h-3 w-full rounded-full bg-[#EFEFEF]">
+                      <motion.div
+                        initial={{ width: "0%" }}
+                        animate={{ width: "33%" }}
+                        transition={{ duration: 0.3 }}
+                        className="relative h-full overflow-hidden rounded-full bg-[#017BFD] transition-all duration-300"
+                      >
+                        <div className="shimmer absolute h-full w-full overflow-hidden rounded-full bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                      </motion.div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             </AnimatePresence>
-            <div className="cr-transaction-details bg-white rounded-2xl p-4 flex flex-col gap-3" onMouseEnter={handleHover}>
-              <div className="cr-transaction-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                <p className="cr-transaction-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                  Status
-                </p>
-                <span
-                  className="cr-transaction-status cr-status-processing px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium"
-                  onMouseEnter={handleHover}
-                >
-                  Processing
-                </span>
-              </div>
-              <div className="cr-transaction-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                <p className="cr-transaction-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                  Transaction ID
-                </p>
-                <p className="cr-transaction-detail-value cr-transaction-id font-mono text-xs" onMouseEnter={handleHover}>
-                  0xabcd...efgh
-                </p>
-              </div>
-              <div className="cr-transaction-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                <p className="cr-transaction-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                  Amount
-                </p>
-                <p className="cr-transaction-detail-value cr-transaction-amount font-medium" onMouseEnter={handleHover}>
-                  $50.00
-                </p>
+            <div className="flex flex-col gap-6 mt-4">
+              <div className="flex flex-col gap-2">
+                <span className="text-[#494949]/60 ml-2 text-sm">Transaction Details</span>
+                <div className="divide-y divide-[#E6E6E6] rounded-[24px] bg-[#F2F2F2] px-4 py-4 text-sm text-[#7B7B7B]">
+                  <div className="flex items-center justify-between pb-3">
+                    <p>Network</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#020818]">Ethereum</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5">
+                    <p>Fee</p>
+                    <p className="flex items-center gap-2">
+                      <span className="text-[#020818]">0.50 USDC</span>
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between py-2.5">
+                    <p>Timestamp</p>
+                    <span className="text-[#020818]">2026-02-16 12:34:56</span>
+                  </div>
+                </div>
               </div>
             </div>
           </>

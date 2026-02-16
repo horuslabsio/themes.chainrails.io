@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CodeMirror from "@uiw/react-codemirror";
 import { css as cssLang } from "@codemirror/lang-css";
-import { ChevronLeft, ChevronRight, FileText, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, FileText, Loader2 } from "lucide-react";
 import type { ThemeModalScreen } from "../types/theme";
 import MockModal from "../components/ModalPreview";
 import Button from "../components/Button";
@@ -338,14 +338,39 @@ export default function ThemeEditor() {
               <MockModal screen={activeScreen} customCss={css} />
             </div>
             <div
-              className="fixed z-100 size-20 border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none opacity-0 group-hover:opacity-100"
+              className="fixed z-100 size-20 border border-dashed border-[#0052FF] top-8 left-8 pointer-events-none opacity-0 group-hover:opacity-100 bg-[#97C6EA4D]"
               style={{
                 left: "var(--left)",
                 top: "var(--top)",
                 width: "var(--width)",
                 height: "var(--height)",
               }}
-            ></div>
+            >
+              <div className="absolute -top-2.5 -translate-y-full flex flex-col px-2.5 py-1.5 justify-center items-center rounded-lg border border-[#DFDFDF] bg-[#FFF] z-10">
+                <p className="whitespace-pre text-sm">.cr-amount-value</p>
+                <button className="ml-2.5 flex gap-1.5 items-center text-[#0052FF]">
+                  <Copy size={12} />
+                  <span className="text-xs whitespace-pre">click anywhere to copy</span>
+                </button>
+              </div>
+              <div className="absolute -top-0 -translate-y-full flex flex-col px-2.5 py-1.5 justify-center items-center">
+                <p className="whitespace-pre text-sm invisible">.cr-amount-value</p>
+                <button className="ml-2.5 flex gap-1.5 items-center text-[#0052FF] invisible">
+                  <Copy size={12} />
+                  <span className="text-xs whitespace-pre">click anywhere to copy</span>
+                </button>
+                <svg
+                  width="10"
+                  height="8"
+                  viewBox="0 0 10 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 scale-135 origin-bottom"
+                >
+                  <path d="M8.93408 0.5H0.934082L4.93408 6.5L8.93408 0.5Z" fill="white" stroke="#DFDFDF" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-1 pb-4 z-10 w-full justify-center">
