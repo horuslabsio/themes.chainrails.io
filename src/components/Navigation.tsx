@@ -49,14 +49,14 @@ export default function Navigation() {
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  "relative flex items-center px-4 py-2 text-xs rounded-md transition-colors duration-200",
+                  "relative flex items-center px-4 py-2 text-xs rounded-md transition-colors duration-200 whitespace-pre",
                   isActive(link.path) ? "text-[#000]" : "text-[#00000080] hover:text-[#2F2F2F]",
                 )}
               >
                 {isActive(link.path) && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute inset-0 bg-white rounded-md"
+                    className="absolute inset-0 bg-white rounded-md whitespace-pre"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -74,13 +74,13 @@ export default function Navigation() {
               </Button>
             ) : (
               <Button variant="secondary" size="sm" onClick={handleSignIn}>
-                <span className="hidden sm:inline">Sign In</span>
+                <span className="hidden sm:inline whitespace-pre">Sign In</span>
               </Button>
             )}
             <Link to="/create">
               <Button variant="primary" size="sm">
                 <Plus size={20} />
-                <span className="hidden sm:inline">Build New Theme</span>
+                <span className="hidden sm:inline whitespace-pre">Build New Theme</span>
               </Button>
             </Link>
           </div>

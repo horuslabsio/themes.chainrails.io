@@ -450,52 +450,199 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             {renderHead(false, "Chainrails", "Select Chain/Network")}
             <div className="cr-amount-fees-grid grid gap-0.75" onMouseEnter={handleHover}>
               {renderAmount(true, "Pay")}
-              {renderFees(true)}
             </div>
-            <div className="cr-chain-list-container relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-chain-list-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+            <div className="cr-select-chain relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
+              <p className="cr-select-chain-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
                 Select Chain
               </p>
-              <div className="cr-chain-list relative flex h-[250px] flex-col gap-1 overflow-y-auto" onMouseEnter={handleHover}>
+              <div
+                className="cr-select-chain-list relative flex max-h-[300px] flex-col gap-1 overflow-y-auto"
+                onMouseEnter={handleHover}
+              >
                 {[
-                  { name: "Ethereum", time: "≈30s", fee: "0.50" },
-                  { name: "Polygon", time: "≈30s", fee: "0.25" },
-                  { name: "Arbitrum", time: "≈30s", fee: "0.30" },
-                  { name: "Optimism", time: "≈30s", fee: "0.35" },
-                  { name: "Base", time: "≈30s", fee: "0.20" },
-                ].map((chain) => (
+                  {
+                    name: "Ethereum",
+                    logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
+                    time: "≈30s",
+                    fee: "0.50",
+                    tokens: [
+                      {
+                        symbol: "USDC",
+                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        amount: "50.50",
+                      },
+                      {
+                        symbol: "ETH",
+                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
+                        amount: "0.00261",
+                      },
+                    ],
+                  },
+                  {
+                    name: "Base",
+                    logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/base.webp",
+                    time: "≈30s",
+                    fee: "0.20",
+                    tokens: [
+                      {
+                        symbol: "USDC",
+                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        amount: "50.20",
+                      },
+                    ],
+                  },
+                  {
+                    name: "Arbitrum",
+                    logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/arbitrum.svg",
+                    time: "≈30s",
+                    fee: "0.30",
+                    tokens: [
+                      {
+                        symbol: "USDC",
+                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        amount: "50.30",
+                      },
+                    ],
+                  },
+                ].map((chain, index) => (
                   <div
                     key={chain.name}
-                    className="cr-chain-item flex max-h-12 cursor-pointer items-center justify-between gap-2 rounded-2xl px-4 py-2 bg-[#f0f0f0]"
+                    className={clsx(
+                      "cr-select-chain-item bg-[#F2F2F2] border border-[#eaeaea] cursor-pointer text-sm",
+                      index === 0 ? "rounded-3xl" : "rounded-2xl",
+                    )}
                     onMouseEnter={handleHover}
                   >
-                    <div className="cr-chain-item-content flex items-center gap-2" onMouseEnter={handleHover}>
-                      <div
-                        className="cr-chain-icon size-7 overflow-clip rounded-[6px] bg-gradient-to-br from-purple-400 to-blue-500"
-                        onMouseEnter={handleHover}
-                      />
-                      <p className="cr-chain-name text-[#2F2F2F] capitalize" onMouseEnter={handleHover}>
-                        {chain.name}
-                      </p>
-                    </div>
                     <div
-                      className="cr-chain-item-details flex flex-col items-end text-xs text-[#6D6D6D]"
+                      className="cr-select-chain-chain flex h-[48px] w-full items-center justify-between gap-2 p-2"
                       onMouseEnter={handleHover}
                     >
-                      <p className="cr-chain-time flex items-center gap-1" onMouseEnter={handleHover}>
-                        <span className="cr-chain-time-icon" onMouseEnter={handleHover}>
-                          ⏳
-                        </span>
-                        <span className="cr-chain-time-value text-[#0A9355]" onMouseEnter={handleHover}>
-                          {chain.time}
-                        </span>
-                      </p>
-                      <p className="cr-chain-fee" onMouseEnter={handleHover}>
-                        Fee: {chain.fee} USDC
-                      </p>
+                      <div className="cr-select-chain-chain-desc ml-1 flex items-center gap-2" onMouseEnter={handleHover}>
+                        <div className="cr-select-chain-icon size-7 overflow-clip rounded-[6px]" onMouseEnter={handleHover}>
+                          <img src={chain.logo} className="object-cover" alt={chain.name} />
+                        </div>
+                        <p className="cr-select-chain-name text-[#2F2F2F] capitalize" onMouseEnter={handleHover}>
+                          {chain.name}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-end gap-1 text-xs text-[#2F2F2F]">
+                        <div className="flex items-center gap-1">
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="cr-select-chain-hourglass size-3 shrink-0 transition-transform duration-200 text-[#6d6d6d]"
+                            onMouseEnter={handleHover}
+                          >
+                            <path
+                              d="M6 6L3.20275 4.17103C2.92026 3.98632 2.75 3.67158 2.75 3.33406V1.25H9.25V3.33406C9.25 3.67158 9.07974 3.98632 8.79725 4.17103L6 6ZM6 6L8.79725 7.82897C9.07974 8.01368 9.25 8.32842 9.25 8.66594V10.75H2.75V8.66594C2.75 8.32842 2.92026 8.01368 3.20275 7.82897L6 6ZM10.25 10.75H1.75M10.25 1.25H1.75"
+                              stroke="currentColor"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                          <span className="cr-select-chain-eta text-[#0A9355]" onMouseEnter={handleHover}>
+                            {chain.time}
+                          </span>
+                        </div>
+                        <div className="cr-select-chain-fee flex items-center gap-1" onMouseEnter={handleHover}>
+                          <p>Fee: ${chain.fee}</p>
+                          <svg
+                            className={clsx(
+                              "cr-select-chain-chevron size-3.5 shrink-0 text-[#6D6D6D] transition-transform duration-200",
+                              index === 0 && "rotate-180",
+                            )}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            onMouseEnter={handleHover}
+                          >
+                            <path d="M6 9l6 6 6-6" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
+                    {/* Expanded tokens for first chain */}
+                    {index === 0 && (
+                      <div
+                        className="cr-select-chain-tokens flex max-h-[190px] flex-col gap-1 overflow-y-auto p-3 pt-0"
+                        onMouseEnter={handleHover}
+                      >
+                        {chain.tokens.map((token) => (
+                          <div
+                            key={token.symbol}
+                            className="cr-select-chain-token bg-white rounded-2xl p-3 flex items-center gap-2 text-sm cursor-pointer hover:bg-[#f8f8f8] transition-colors duration-100"
+                            onMouseEnter={handleHover}
+                          >
+                            <div
+                              className="cr-select-chain-token-images relative rounded-[6px] shrink-0 size-6"
+                              onMouseEnter={handleHover}
+                            >
+                              <img src={token.logo} alt={token.symbol} className="size-full rounded-full object-cover" />
+                              <div
+                                className="cr-select-chain-token-chain absolute -right-[1px] -bottom-[1px] z-10 size-3 rounded-full"
+                                onMouseEnter={handleHover}
+                              >
+                                <img src={chain.logo} alt={chain.name} className="size-3 rounded-full object-cover" />
+                              </div>
+                            </div>
+                            <div>
+                              <p
+                                className="cr-select-chain-token-name text-[#2F2F2F] flex items-center gap-1"
+                                onMouseEnter={handleHover}
+                              >
+                                <span className="uppercase">{token.symbol}</span> on{" "}
+                                <span className="capitalize">{chain.name}</span>
+                              </p>
+                            </div>
+                            <div
+                              className="cr-select-chain-token-amount text-[#6D6D6D] flex flex-1 justify-end gap-1 items-center"
+                              onMouseEnter={handleHover}
+                            >
+                              <p>
+                                ≈ {token.amount} <span className="uppercase">{token.symbol}</span>
+                              </p>
+                              <svg
+                                className="size-4 shrink-0"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <path d="M9 18l6-6-6-6" />
+                              </svg>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
+              </div>
+              {/* More Available button */}
+              <div
+                className="cr-select-chain-more absolute bottom-0 left-1/2 flex w-fit -translate-x-1/2 items-center gap-1 rounded-full bg-white px-3 py-1.5 text-center text-xs text-[#2F2F2F]"
+                onMouseEnter={handleHover}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className="rotate-90 size-3.5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M14 8.00009C14 7.86749 13.9473 7.74031 13.8536 7.64654L9.68689 3.47986C9.49163 3.2846 9.17504 3.2846 8.97978 3.47986C8.78452 3.67512 8.78452 3.9917 8.97978 4.18697L12.2929 7.50009L2.5 7.50009C2.22386 7.50009 2 7.72395 2 8.00009C2 8.27624 2.22386 8.50009 2.5 8.50009H12.2929L8.97978 11.8132C8.78452 12.0085 8.78452 12.325 8.97978 12.5203C9.17504 12.7156 9.49162 12.7156 9.68689 12.5203L13.8536 8.35365C13.9473 8.25988 14 8.1327 14 8.00009Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+                More Available
               </div>
             </div>
           </>
