@@ -935,46 +935,51 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         return (
           <>
             {renderHead(true, "Chainrails", "Make your Payment")}
-            <div className="cr-initiating-transfer-container flex flex-col items-center gap-6 py-12" onMouseEnter={handleHover}>
-              <div
-                className="cr-transfer-icon-wrapper size-24 rounded-full bg-blue-100 flex items-center justify-center"
-                onMouseEnter={handleHover}
-              >
-                <div className="cr-transfer-icon size-16 rounded-full bg-blue-500 animate-pulse" onMouseEnter={handleHover} />
+            <div
+              className="cr-initiating flex h-50 w-full flex-col justify-center gap-5.5 rounded-[24px] bg-white p-7 items-center"
+              onMouseEnter={handleHover}
+            >
+              <div className="cr-initiating-loader relative mx-auto size-22.5" onMouseEnter={handleHover}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={16}
+                  height={16}
+                  viewBox="0 0 24 24"
+                  className="cr-initiating-loader-svg animate-360 absolute inset-0 scale-145 text-[#E6E6E6] w-full h-full"
+                  onMouseEnter={handleHover}
+                >
+                  <path
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={0.75}
+                    className="cr-initiating-loader-path darkmode:!stroke-[#FFFFFF99] animate-pulse stroke-[#45454599] duration-1000"
+                    d="M12 6V3m4.25 4.75L18.4 5.6M18 12h3m-4.75 4.25l2.15 2.15M12 18v3m-4.25-4.75L5.6 18.4M6 12H3m4.75-4.25L5.6 5.6"
+                  ></path>
+                </svg>
+                <figure
+                  className="cr-initiating-loader-chain absolute top-1/2 left-1/2 size-9 -translate-x-1/2 -translate-y-1/2 animate-pulse overflow-hidden rounded-full duration-1000"
+                  onMouseEnter={handleHover}
+                >
+                  <img
+                    src="https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg"
+                    alt="Ethereum logo"
+                  />
+                </figure>
               </div>
-              <div className="cr-initiating-transfer-content flex flex-col gap-2 text-center" onMouseEnter={handleHover}>
-                <p className="cr-initiating-transfer-title font-medium text-lg" onMouseEnter={handleHover}>
-                  Initiating Transfer
+              <div className="cr-initiating-content text-center" onMouseEnter={handleHover}>
+                <h4
+                  className="cr-initiating-content-title text-[#494949] text-[20px] -tracking-[0.4px]"
+                  onMouseEnter={handleHover}
+                >
+                  Initiating Transaction
+                </h4>
+                <p
+                  className="cr-initiating-content-text text-[#494949]/60 text-[14px] font-medium -tracking-[0.28px]"
+                  onMouseEnter={handleHover}
+                >
+                  Generating your payment address
                 </p>
-                <p className="cr-initiating-transfer-subtitle text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                  Please confirm the transaction in your wallet
-                </p>
-              </div>
-              <div className="cr-transfer-details bg-white rounded-2xl p-4 w-full flex flex-col gap-2" onMouseEnter={handleHover}>
-                <div className="cr-transfer-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                  <p className="cr-transfer-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Connected Wallet
-                  </p>
-                  <p className="cr-transfer-detail-value font-mono text-sm" onMouseEnter={handleHover}>
-                    0x1234...5678
-                  </p>
-                </div>
-                <div className="cr-transfer-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                  <p className="cr-transfer-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Token
-                  </p>
-                  <p className="cr-transfer-detail-value font-medium" onMouseEnter={handleHover}>
-                    USDC
-                  </p>
-                </div>
-                <div className="cr-transfer-detail-item flex items-center justify-between" onMouseEnter={handleHover}>
-                  <p className="cr-transfer-detail-label text-sm text-[#6D6D6D]" onMouseEnter={handleHover}>
-                    Amount
-                  </p>
-                  <p className="cr-transfer-detail-value font-medium" onMouseEnter={handleHover}>
-                    50.50 USDC
-                  </p>
-                </div>
               </div>
             </div>
           </>
@@ -1116,7 +1121,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="relative user-select-none">
       {customCss && <style dangerouslySetInnerHTML={{ __html: customCss }} />}
       <motion.div
         ref={modalRef}
