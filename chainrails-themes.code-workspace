@@ -12,6 +12,9 @@
     {
       "path": "../chainrails-backend",
     },
+    {
+      "path": "../chainrails-sdk",
+    },
   ],
   "settings": {},
 }

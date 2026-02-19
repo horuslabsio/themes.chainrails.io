@@ -1197,7 +1197,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
         onMouseEnter={handleHover}
       >
         {renderScreen()}
-        <hr className="bg-[#f0f0f0] h-0.25 border-none" />
+        <hr className="cr-divider bg-[#f0f0f0] h-0.25 border-none" />
         <div
           className="cr-payment-footer text-[#494949]/60 flex items-center justify-center pb-1.5 text-xs"
           onMouseEnter={handleHover}
