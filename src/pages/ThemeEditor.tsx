@@ -41,8 +41,6 @@ export default function ThemeEditor() {
     status: string;
   } | null>(null);
 
-  useEffect(() => setCss((css) => fetchedTheme?.cssContent || css), [fetchedTheme?.cssContent]);
-
   const [css, setCss] = useState(
     fetchedTheme?.cssContent ||
       `
@@ -82,7 +80,11 @@ export default function ThemeEditor() {
         status: fetchedTheme.status,
       });
       if (fetchedTheme.css) {
-        setCss(fetchedTheme.css);
+        if (css === fetchedTheme.css) {
+          return;
+        } else {
+          setCss(fetchedTheme.css);
+        }
         setSavedCss(fetchedTheme.css);
       } else {
         setSavedCss(css);
