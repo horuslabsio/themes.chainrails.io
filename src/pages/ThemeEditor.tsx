@@ -21,6 +21,7 @@ const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "addRefundAddress", label: "Add Refund Address" },
   { key: "initiatingTransfer", label: "Initiating Transfer" },
   { key: "confirmation", label: "Confirmation" },
+  { key: "confirmed", label: "Confirmed" },
 ];
 
 export default function ThemeEditor() {

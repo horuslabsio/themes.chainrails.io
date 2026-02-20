@@ -37,4 +37,5 @@ export type ThemeModalScreen =
   | "addRefundAddress"
   | "initiatingTransfer"
   | "confirmation"
+  | "confirmed"
   | "depositInputAmount";
