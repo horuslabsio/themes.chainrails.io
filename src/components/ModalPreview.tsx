@@ -304,7 +304,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderAmount(true, "Payment Amount")}
             </div>
             <div className="cr-select-wallet relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="text-[#494949]/60 ml-2 text-sm">Select Wallet</p>
+              <p className="cr-select-wallet-title text-[#494949]/60 ml-2 text-sm">Select Wallet</p>
               <div
                 className="cr-select-wallet-list flex max-h-[250px] flex-col gap-1 overflow-y-auto no-scrollbar"
                 onMouseEnter={handleHover}
