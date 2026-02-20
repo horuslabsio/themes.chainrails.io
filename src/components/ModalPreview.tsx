@@ -745,7 +745,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 className="cr-transfer-qr qr h-36 w-full rounded-[24px] bg-white p-2.5 flex items-center justify-center"
                 onMouseEnter={handleHover}
               >
-                <div className="bg-[#f2f2f2] size-31 rounded-xl"></div>
+                <div className="bg-[#f2f2f2] size-31 rounded-xl" style={{ background: `var(--qr-color, #f2f2f2)` }}></div>
               </div>
               <p className="cr-transfer-text text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
                 Payment Details
