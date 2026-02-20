@@ -304,7 +304,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderAmount(true, "Payment Amount")}
             </div>
             <div className="cr-select-wallet relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="text-[#494949]/60 ml-2 text-sm text-[14px]">Select Wallet</p>
+              <p className="text-[#494949]/60 ml-2 text-sm">Select Wallet</p>
               <div
                 className="cr-select-wallet-list flex max-h-[250px] flex-col gap-1 overflow-y-auto no-scrollbar"
                 onMouseEnter={handleHover}
@@ -451,7 +451,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               {renderAmount(true, "Pay")}
             </div>
             <div className="cr-select-chain relative flex flex-col gap-2.5" onMouseEnter={handleHover}>
-              <p className="cr-select-chain-title text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+              <p className="cr-select-chain-title text-[#494949]/60 ml-2 text-sm" onMouseEnter={handleHover}>
                 Select Chain
               </p>
               <div
@@ -747,7 +747,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               >
                 <div className="bg-[#f2f2f2] size-31 rounded-xl" style={{ background: `var(--qr-color, #f2f2f2)` }}></div>
               </div>
-              <p className="cr-transfer-text text-[#494949]/60 ml-2 text-sm text-[14px]" onMouseEnter={handleHover}>
+              <p className="cr-transfer-text text-[#494949]/60 ml-2 text-sm" onMouseEnter={handleHover}>
                 Payment Details
               </p>
               <div
@@ -868,10 +868,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
 
               {/* Select Payment Token */}
               <div className="cr-select-wallet-token" onMouseEnter={handleHover}>
-                <p
-                  className="cr-select-wallet-token-text text-[#494949]/60 mb-4 ml-2 text-sm text-[14px]"
-                  onMouseEnter={handleHover}
-                >
+                <p className="cr-select-wallet-token-text text-[#494949]/60 mb-4 ml-2 text-sm" onMouseEnter={handleHover}>
                   Select Payment Token
                 </p>
                 <div
@@ -1062,8 +1059,11 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 onMouseEnter={handleHover}
               >
                 {/* Status stepper, match PaymentModal Status */}
-                <div className="flex flex-col gap-3 rounded-2xl p-4 bg-white">
-                  <p className="flex items-center gap-1 text-sm tracking-[-0.28px] text-[#8A8A8A]">
+                <div className="cr-confirmation-progress flex flex-col gap-3 rounded-2xl p-4 bg-white" onMouseEnter={handleHover}>
+                  <p
+                    className="cr-confirmation-progress-status flex items-center gap-1 text-sm tracking-[-0.28px] text-[#8A8A8A]"
+                    onMouseEnter={handleHover}
+                  >
                     <span>
                       <svg
                         width="12"
@@ -1082,12 +1082,20 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                       </svg>
                     </span>
                     <span>Status:</span>
-                    <span className="font-semibold text-[#020818] capitalize">processing</span>
+                    <span
+                      className="cr-confirmation-progress-status-text font-semibold text-[#020818] capitalize"
+                      onMouseEnter={handleHover}
+                    >
+                      processing
+                    </span>
                   </p>
                   {/* Stepper bar */}
-                  <div className="relative w-full max-w-md">
+                  <div className="cr-confirmation-progress-stepper relative w-full max-w-md" onMouseEnter={handleHover}>
                     <div className="absolute top-1/2 z-10 flex w-full -translate-y-1/2 justify-between">
-                      <div className="flex size-6 items-center justify-center rounded-full p-1 bg-[#017BFD] text-white">
+                      <div
+                        className="cr-confirmation-progress-track flex size-6 items-center justify-center rounded-full p-1 bg-[#017BFD] text-white"
+                        onMouseEnter={handleHover}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -1104,7 +1112,10 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                           ></path>
                         </svg>
                       </div>
-                      <div className="flex size-6 items-center justify-center rounded-full bg-[#EFEFEF] text-[#7C7C7C]">
+                      <div
+                        className="cr-confirmation-progress-track flex size-6 items-center justify-center rounded-full bg-[#EFEFEF] text-[#7C7C7C]"
+                        onMouseEnter={handleHover}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -1119,7 +1130,10 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                           ></path>
                         </svg>
                       </div>
-                      <div className="flex size-6 items-center justify-center rounded-full bg-[#EFEFEF] text-[#7C7C7C]">
+                      <div
+                        className="cr-confirmation-progress-track flex size-6 items-center justify-center rounded-full bg-[#EFEFEF] text-[#7C7C7C]"
+                        onMouseEnter={handleHover}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="14"
@@ -1137,14 +1151,17 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                         </svg>
                       </div>
                     </div>
-                    <div className="h-3 w-full rounded-full bg-[#EFEFEF]">
+                    <div className="cr-confirmation-progress-bar h-3 w-full rounded-full bg-[#EFEFEF]" onMouseEnter={handleHover}>
                       <motion.div
                         initial={{ width: "0%" }}
                         animate={{ width: "33%" }}
                         transition={{ duration: 0.3 }}
-                        className="relative h-full overflow-hidden rounded-full bg-[#017BFD] transition-all duration-300"
+                        className="cr-confirmation-progress-progress relative h-full overflow-hidden rounded-full bg-[#017BFD] transition-all duration-300"
                       >
-                        <div className="shimmer absolute h-full w-full overflow-hidden rounded-full bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                        <div
+                          className="cr-confirmation-progress-shimmer shimmer absolute h-full w-full overflow-hidden rounded-full bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                          onMouseEnter={handleHover}
+                        />
                       </motion.div>
                     </div>
                   </div>
@@ -1153,23 +1170,41 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
             </AnimatePresence>
             <div className="flex flex-col gap-6 mt-4">
               <div className="flex flex-col gap-2">
-                <span className="text-[#494949]/60 ml-2 text-sm">Transaction Details</span>
-                <div className="divide-y divide-[#E6E6E6] rounded-[24px] bg-[#F2F2F2] px-4 py-4 text-sm text-[#7B7B7B]">
-                  <div className="flex items-center justify-between pb-3">
+                <p className="cr-transfer-text text-[#494949]/60 ml-2 text-sm" onMouseEnter={handleHover}>
+                  Transaction Details
+                </p>
+
+                <div
+                  className="cr-transfer-details divide-y divide-[#E6E6E6] rounded-[24px] bg-[#F2F2F2] px-3 py-4 text-sm text-[#7B7B7B]"
+                  onMouseEnter={handleHover}
+                >
+                  <div className="cr-transfer-detail flex items-center justify-between pb-3" onMouseEnter={handleHover}>
                     <p>Network</p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[#020818]">Ethereum</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between py-2.5">
-                    <p>Fee</p>
                     <p className="flex items-center gap-2">
-                      <span className="text-[#020818]">0.50 USDC</span>
+                      <span className="cr-transfer-value text-[#020818]" onMouseEnter={handleHover}>
+                        50.50 USDC
+                      </span>
+                      <p className="flex items-center gap-2">
+                        <span className="cr-transfer-value text-[#020818]" onMouseEnter={handleHover}>
+                          Ethereum
+                        </span>
+                      </p>
                     </p>
                   </div>
-                  <div className="flex items-center justify-between py-2.5">
-                    <p>Timestamp</p>
-                    <span className="text-[#020818]">2026-02-16 12:34:56</span>
+                  <div className="cr-transfer-detail flex items-center justify-between py-2.5" onMouseEnter={handleHover}>
+                    <p>Fee</p>
+                    <p className="flex items-center gap-2">
+                      <span className="cr-transfer-value text-[#020818]" onMouseEnter={handleHover}>
+                        0.50 USDC
+                      </span>
+                    </p>
+                  </div>
+                  <div className="cr-transfer-detail flex items-center justify-between pt-3" onMouseEnter={handleHover}>
+                    <p className="flex items-center gap-2">
+                      <span className="cr-transfer-value text-[#020818]" onMouseEnter={handleHover}>
+                        2026-02-16 12:34:56
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
