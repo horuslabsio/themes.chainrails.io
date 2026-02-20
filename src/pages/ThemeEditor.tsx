@@ -82,11 +82,11 @@ export default function ThemeEditor() {
         status: fetchedTheme.status,
       });
       if (fetchedTheme.css) {
-        if (css === fetchedTheme.css) {
-          return;
-        } else {
-          setCss(fetchedTheme.css);
-        }
+        // if (css === fetchedTheme.css) {
+        //   return;
+        // } else {
+        //   setCss(fetchedTheme.css);
+        // }
         setSavedCss(fetchedTheme.css);
       } else {
         setSavedCss(css);
