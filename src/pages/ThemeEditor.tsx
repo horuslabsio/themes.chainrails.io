@@ -41,9 +41,11 @@ export default function ThemeEditor() {
     status: string;
   } | null>(null);
 
+  useEffect(() => setCss((css) => fetchedTheme?.cssContent || css), [fetchedTheme?.cssContent]);
+
   const [css, setCss] = useState(
     fetchedTheme?.cssContent ||
-      `
+      `/* Start editing your theme here */
 @import url('https://fonts.cdnfonts.com/css/inter');
 @import url('https://fonts.cdnfonts.com/css/google-sans');
 
