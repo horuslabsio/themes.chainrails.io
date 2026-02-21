@@ -1,7 +1,7 @@
 import { proxy, useSnapshot } from "valtio";
 
 // const DASHBOARD_URL = "https://dashboard.chainrails.io";
-const DASHBOARD_URL = "https://admin.chainrails.io";
+const DASHBOARD_URL = "https://dashboard.chainrails.io";
 
 interface AuthStore {
   accessToken: string | null;
