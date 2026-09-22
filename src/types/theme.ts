@@ -1,4 +1,5 @@
-export type ThemeCategory = "gaming" | "health" | "travel" | "finance" | "education" | "others";
+export type ThemeCategory =
+  "gaming" | "health" | "travel" | "finance" | "education" | "others";
 
 export interface Theme {
   id: string;
@@ -29,13 +30,23 @@ export interface ThemeFilter {
 
 export type ThemeModalScreen =
   | "selectMethod"
+  | "otherPaymentMethods"
   | "payToAddress"
   | "payWithWallet"
+  | "multiChainWalletSelect"
+  | "farcasterSelectToken"
   | "connectToWallet"
   | "transferToAddress"
   | "transferWithWallet"
   | "addRefundAddress"
   | "initiatingTransfer"
   | "confirmation"
-  | "confirmed"
-  | "depositInputAmount";
+  | "depositInputAmount"
+  | "fiatVerifyEmail"
+  | "fiatSelectProvider"
+  | "fiatTransferDetails"
+  | "fiatPaymentWidget"
+  | "fiatKyc"
+  | "fiatMobileMoneyDetails"
+  | "fiatMobileMoneyProcessing"
+  | "transactionHistory";

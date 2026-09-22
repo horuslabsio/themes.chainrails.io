@@ -3,33 +3,58 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import CodeMirror from "@uiw/react-codemirror";
 import { css as cssLang } from "@codemirror/lang-css";
-import { ChevronLeft, ChevronRight, Copy, FileText, Loader2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  FileText,
+  Loader2,
+} from "lucide-react";
 import type { ThemeModalScreen } from "../types/theme";
 import MockModal from "../components/ModalPreview";
 import Button from "../components/Button";
 import { cn } from "../utils/cn";
-import { useMyThemeBySlug, useUpdateTheme, useSubmitTheme } from "../hooks/useThemeQueries";
+import {
+  useMyThemeBySlug,
+  useUpdateTheme,
+  useSubmitTheme,
+} from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "depositInputAmount", label: "Deposit: Input Amount" },
   { key: "selectMethod", label: "Select Method" },
+  { key: "otherPaymentMethods", label: "Other Payment Methods" },
   { key: "payToAddress", label: "Pay to Address" },
   { key: "payWithWallet", label: "Pay with Wallet" },
+  { key: "multiChainWalletSelect", label: "Select Wallet Chain" },
+  { key: "farcasterSelectToken", label: "Farcaster Token" },
   { key: "connectToWallet", label: "Connect Wallet" },
   { key: "transferToAddress", label: "Transfer to Address" },
   { key: "transferWithWallet", label: "Transfer with Wallet" },
   { key: "addRefundAddress", label: "Add Refund Address" },
   { key: "initiatingTransfer", label: "Initiating Transfer" },
   { key: "confirmation", label: "Confirmation" },
-  { key: "confirmed", label: "Confirmed" },
+  { key: "fiatVerifyEmail", label: "Verify Email" },
+  { key: "fiatSelectProvider", label: "Select Provider" },
+  { key: "fiatTransferDetails", label: "Transfer Details" },
+  { key: "fiatPaymentWidget", label: "Payment Widget" },
+  { key: "fiatKyc", label: "KYC" },
+  { key: "fiatMobileMoneyDetails", label: "Mobile Money Details" },
+  { key: "fiatMobileMoneyProcessing", label: "Mobile Money Processing" },
+  { key: "transactionHistory", label: "Transaction History" },
 ];
 
 export default function ThemeEditor() {
   const { themeName } = useParams<{ themeName: string }>();
   const navigate = useNavigate();
-  const [activeScreen, setActiveScreen] = useState<ThemeModalScreen>("selectMethod");
+  const [activeScreen, setActiveScreen] =
+    useState<ThemeModalScreen>("selectMethod");
 
-  const { data: fetchedTheme, isLoading: isLoadingTheme, error: loadError } = useMyThemeBySlug(themeName);
+  const {
+    data: fetchedTheme,
+    isLoading: isLoadingTheme,
+    error: loadError,
+  } = useMyThemeBySlug(themeName);
   const updateMutation = useUpdateTheme();
   const submitMutation = useSubmitTheme();
 
@@ -42,7 +67,10 @@ export default function ThemeEditor() {
     status: string;
   } | null>(null);
 
-  useEffect(() => setCss((css) => fetchedTheme?.cssContent || css), [fetchedTheme?.cssContent]);
+  useEffect(
+    () => setCss((css) => fetchedTheme?.cssContent || css),
+    [fetchedTheme?.cssContent],
+  );
 
   const [css, setCss] = useState(
     fetchedTheme?.cssContent ||
@@ -58,7 +86,7 @@ export default function ThemeEditor() {
   cursor: pointer;
 }
 
-.cr-amount-desc, 
+.cr-amount-desc,
 .cr-amount-value {
     font-family: 'Product Sans', -apple-system, 'Helvetica Neue', sans-serif;
     letter-spacing: -2%;
@@ -116,13 +144,18 @@ export default function ThemeEditor() {
     const container = containerRef.current;
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    const clampedX = Math.min(Math.max(clientX - rect.left, 240), rect.width - 240);
+    const clampedX = Math.min(
+      Math.max(clientX - rect.left, 240),
+      rect.width - 240,
+    );
     const pct = (clampedX / rect.width) * 100;
     setEditorWidthPct(Number(pct.toFixed(2)));
   }, []);
 
   const handleDragStart = useCallback(
-    (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    (
+      e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    ) => {
       isDraggingRef.current = true;
       if ("touches" in e) {
         updateWidthsFromClientX(e.touches[0].clientX);
@@ -167,7 +200,10 @@ export default function ThemeEditor() {
     if (!themeId) return;
 
     try {
-      const updated = await updateMutation.mutateAsync({ id: themeId, payload: { cssContent: css } });
+      const updated = await updateMutation.mutateAsync({
+        id: themeId,
+        payload: { cssContent: css },
+      });
       if (updated) {
         setSavedCss(css);
         setHasUnsavedChanges(false);
@@ -184,7 +220,10 @@ export default function ThemeEditor() {
     try {
       // First save the CSS if there are unsaved changes
       if (hasUnsavedChanges) {
-        const updated = await updateMutation.mutateAsync({ id: themeId, payload: { cssContent: css } });
+        const updated = await updateMutation.mutateAsync({
+          id: themeId,
+          payload: { cssContent: css },
+        });
         if (!updated) {
           toast.error("Failed to save CSS before publishing.");
           return;
@@ -243,7 +282,8 @@ export default function ThemeEditor() {
     );
   }
 
-  const canEdit = themeInfo.status === "draft" || themeInfo.status === "rejected";
+  const canEdit =
+    themeInfo.status === "draft" || themeInfo.status === "rejected";
   const canPublish = canEdit && css.trim().length > 0;
 
   return (
@@ -254,35 +294,55 @@ export default function ThemeEditor() {
           <div className="p-1.5 bg-white border border-[#EDEDED] rounded-md">
             <FileText className="w-4 h-4 text-[#8C8C8C]" />
           </div>
-          <span className="font-medium text-[#2F2F2F]">{themeInfo.name || "untitled"}.css</span>
+          <span className="font-medium text-[#2F2F2F]">
+            {themeInfo.name || "untitled"}.css
+          </span>
           {themeInfo.status === "pending" && (
             <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-yellow-100 text-yellow-700">
               Under Review
             </span>
           )}
           {themeInfo.status === "approved" && (
-            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-green-100 text-green-700">Approved</span>
+            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-green-100 text-green-700">
+              Approved
+            </span>
           )}
           {themeInfo.status === "rejected" && (
-            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-red-100 text-red-700">Rejected</span>
+            <span className="ml-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-red-100 text-red-700">
+              Rejected
+            </span>
           )}
         </div>
         <div className="flex items-center gap-3">
           {canEdit && (
             <>
-              <Button variant="secondary" onClick={handleSave} disabled={updateMutation.isPending || !hasUnsavedChanges}>
-                {updateMutation.isPending ? <Loader2 size={14} className="animate-spin mr-1" /> : null}
+              <Button
+                variant="secondary"
+                onClick={handleSave}
+                disabled={updateMutation.isPending || !hasUnsavedChanges}
+              >
+                {updateMutation.isPending ? (
+                  <Loader2 size={14} className="animate-spin mr-1" />
+                ) : null}
                 Save Draft
               </Button>
-              <Button variant="primary" onClick={handlePublish} disabled={submitMutation.isPending || !canPublish}>
-                {submitMutation.isPending ? <Loader2 size={14} className="animate-spin mr-1" /> : null}
+              <Button
+                variant="primary"
+                onClick={handlePublish}
+                disabled={submitMutation.isPending || !canPublish}
+              >
+                {submitMutation.isPending ? (
+                  <Loader2 size={14} className="animate-spin mr-1" />
+                ) : null}
                 Publish
               </Button>
             </>
           )}
           {!canEdit && (
             <span className="text-xs text-[#888]">
-              {themeInfo.status === "pending" ? "Awaiting review" : "This theme cannot be edited"}
+              {themeInfo.status === "pending"
+                ? "Awaiting review"
+                : "This theme cannot be edited"}
             </span>
           )}
         </div>
@@ -334,7 +394,11 @@ export default function ThemeEditor() {
           className="col-span-1 min-w-[240px]bg-[#F1F1F1] rounded-xl relative flex flex-col items-center h-[calc(100vh-160px)] overflow-hidden"
           style={{ width: `${100 - editorWidthPct}%` }}
         >
-          <Button variant="secondary" size="sm" className="absolute top-5 left-5 pointer-events-none w-15 h-5.5">
+          <Button
+            variant="secondary"
+            size="sm"
+            className="absolute top-5 left-5 pointer-events-none w-15 h-5.5"
+          >
             Preview
           </Button>
 
@@ -355,14 +419,20 @@ export default function ThemeEditor() {
                 <p className="whitespace-pre text-sm">.cr-amount-value</p>
                 <button className="ml-2.5 flex gap-1.5 items-center text-[#0052FF]">
                   <Copy size={12} />
-                  <span className="text-xs whitespace-pre">click anywhere to copy</span>
+                  <span className="text-xs whitespace-pre">
+                    click anywhere to copy
+                  </span>
                 </button>
               </div>
               <div className="absolute -top-0 -translate-y-full flex flex-col px-2.5 py-1.5 justify-center items-center">
-                <p className="whitespace-pre text-sm invisible">.cr-amount-value</p>
+                <p className="whitespace-pre text-sm invisible">
+                  .cr-amount-value
+                </p>
                 <button className="ml-2.5 flex gap-1.5 items-center text-[#0052FF] invisible">
                   <Copy size={12} />
-                  <span className="text-xs whitespace-pre">click anywhere to copy</span>
+                  <span className="text-xs whitespace-pre">
+                    click anywhere to copy
+                  </span>
                 </button>
                 <svg
                   width="10"
@@ -372,7 +442,11 @@ export default function ThemeEditor() {
                   xmlns="http://www.w3.org/2000/svg"
                   className="absolute bottom-0 left-1/2 -translate-x-1/2 scale-135 origin-bottom"
                 >
-                  <path d="M8.93408 0.5H0.934082L4.93408 6.5L8.93408 0.5Z" fill="white" stroke="#DFDFDF" />
+                  <path
+                    d="M8.93408 0.5H0.934082L4.93408 6.5L8.93408 0.5Z"
+                    fill="white"
+                    stroke="#DFDFDF"
+                  />
                 </svg>
               </div>
             </div>
@@ -381,8 +455,11 @@ export default function ThemeEditor() {
           <div className="flex items-center gap-1 pb-4 z-10 w-full justify-center">
             <button
               onClick={() => {
-                const idx = modalScreens.findIndex((s) => s.key === activeScreen);
-                const prev = (idx - 1 + modalScreens.length) % modalScreens.length;
+                const idx = modalScreens.findIndex(
+                  (s) => s.key === activeScreen,
+                );
+                const prev =
+                  (idx - 1 + modalScreens.length) % modalScreens.length;
                 setActiveScreen(modalScreens[prev].key);
               }}
               className="flex w-8 h-8 justify-center items-center rounded-full border border-[#EFEFEF] bg-[#FFF] cursor-pointer"
@@ -397,7 +474,9 @@ export default function ThemeEditor() {
                   onClick={() => setActiveScreen(s.key)}
                   className={cn(
                     "rounded-full cursor-pointer",
-                    activeScreen === s.key ? "w-5 h-2 bg-black" : "w-2 h-2 bg-[#ECECEC] hover:bg-[#D4D4D4]",
+                    activeScreen === s.key
+                      ? "w-5 h-2 bg-black"
+                      : "w-2 h-2 bg-[#ECECEC] hover:bg-[#D4D4D4]",
                   )}
                 />
               ))}
@@ -405,7 +484,9 @@ export default function ThemeEditor() {
 
             <button
               onClick={() => {
-                const idx = modalScreens.findIndex((s) => s.key === activeScreen);
+                const idx = modalScreens.findIndex(
+                  (s) => s.key === activeScreen,
+                );
                 const next = (idx + 1) % modalScreens.length;
                 setActiveScreen(modalScreens[next].key);
               }}

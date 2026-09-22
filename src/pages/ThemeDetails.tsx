@@ -12,20 +12,32 @@ import { useThemeBySlug } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "selectMethod", label: "Select Method" },
+  { key: "otherPaymentMethods", label: "Other Payment Methods" },
   { key: "payToAddress", label: "Pay to Address" },
   { key: "payWithWallet", label: "Pay with Wallet" },
+  { key: "multiChainWalletSelect", label: "Select Wallet Chain" },
+  { key: "farcasterSelectToken", label: "Farcaster Token" },
   { key: "connectToWallet", label: "Connect Wallet" },
   { key: "transferToAddress", label: "Transfer to Address" },
   { key: "transferWithWallet", label: "Transfer with Wallet" },
   { key: "addRefundAddress", label: "Add Refund Address" },
   { key: "initiatingTransfer", label: "Initiating Transfer" },
   { key: "confirmation", label: "Confirmation" },
+  { key: "fiatVerifyEmail", label: "Verify Email" },
+  { key: "fiatSelectProvider", label: "Select Provider" },
+  { key: "fiatTransferDetails", label: "Transfer Details" },
+  { key: "fiatPaymentWidget", label: "Payment Widget" },
+  { key: "fiatKyc", label: "KYC" },
+  { key: "fiatMobileMoneyDetails", label: "Mobile Money Details" },
+  { key: "fiatMobileMoneyProcessing", label: "Mobile Money Processing" },
+  { key: "transactionHistory", label: "Transaction History" },
 ];
 
 export default function ThemeDetails() {
   const { slug } = useParams<{ slug: string }>();
   const { data: theme, isLoading, error } = useThemeBySlug(slug);
-  const [activeScreen, setActiveScreen] = useState<ThemeModalScreen>("selectMethod");
+  const [activeScreen, setActiveScreen] =
+    useState<ThemeModalScreen>("selectMethod");
 
   if (isLoading) {
     return (
@@ -41,8 +53,13 @@ export default function ThemeDetails() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold mb-4">Theme Not Found</h1>
-          <p className="text-gray-600 mb-6">The theme you're looking for doesn't exist.</p>
-          <Link to="/" className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+          <p className="text-gray-600 mb-6">
+            The theme you're looking for doesn't exist.
+          </p>
+          <Link
+            to="/"
+            className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          >
             Back to Theme Store
           </Link>
         </div>
@@ -60,7 +77,10 @@ export default function ThemeDetails() {
     <div className="py-4">
       {/* Breadcrumb */}
       <nav className="pl-25 pr-22 mb-4 pb-3 border-b border-[#EFEFEF]">
-        <Link to="/" className="flex w-8 h-8 justify-center items-center rounded-full border border-[#E4E4E4] bg-[#EEE]">
+        <Link
+          to="/"
+          className="flex w-8 h-8 justify-center items-center rounded-full border border-[#E4E4E4] bg-[#EEE]"
+        >
           <ChevronLeft size={20} />
         </Link>
       </nav>
@@ -74,7 +94,9 @@ export default function ThemeDetails() {
               <span className="text-xs text-[#00000066]">{theme.category}</span>
             </div>
 
-            <p className="text-sm text-[#454545] my-8 max-w-88">{theme.description || "No description"}</p>
+            <p className="text-sm text-[#454545] my-8 max-w-88">
+              {theme.description || "No description"}
+            </p>
 
             <div className="font-mono text-xs text-[#00000099]">
               <div className="border-t border-[#EFEFEF] flex items-center justify-between py-2">
@@ -82,8 +104,10 @@ export default function ThemeDetails() {
                 <span
                   className={cn(
                     "px-2 py-0.5 rounded-full text-[10px] font-medium",
-                    theme.status === "approved" && "bg-green-100 text-green-700",
-                    theme.status === "pending" && "bg-yellow-100 text-yellow-700",
+                    theme.status === "approved" &&
+                      "bg-green-100 text-green-700",
+                    theme.status === "pending" &&
+                      "bg-yellow-100 text-yellow-700",
                     theme.status === "draft" && "bg-gray-100 text-gray-600",
                     theme.status === "rejected" && "bg-red-100 text-red-700",
                   )}
@@ -125,7 +149,11 @@ export default function ThemeDetails() {
               />
             </div>
 
-            <Button onClick={handleUseTheme} size="md" className="w-full mt-4 rounded-3xl font-bold font-normal">
+            <Button
+              onClick={handleUseTheme}
+              size="md"
+              className="w-full mt-4 rounded-3xl font-bold font-normal"
+            >
               Use This Theme
             </Button>
           </div>
@@ -133,7 +161,11 @@ export default function ThemeDetails() {
 
         {/* Preview */}
         <div className="col-span-1 min-w-0 bg-[#F1F1F1] rounded-xl relative flex flex-col items-center h-[calc(100vh-160px)] overflow-hidden">
-          <Button variant="secondary" size="sm" className="absolute top-5 left-5 pointer-events-none w-15 h-5.5">
+          <Button
+            variant="secondary"
+            size="sm"
+            className="absolute top-5 left-5 pointer-events-none w-15 h-5.5"
+          >
             Preview
           </Button>
 
@@ -146,8 +178,11 @@ export default function ThemeDetails() {
           <div className="flex items-center gap-1 pb-4 z-10 w-full justify-center">
             <button
               onClick={() => {
-                const idx = modalScreens.findIndex((s) => s.key === activeScreen);
-                const prev = (idx - 1 + modalScreens.length) % modalScreens.length;
+                const idx = modalScreens.findIndex(
+                  (s) => s.key === activeScreen,
+                );
+                const prev =
+                  (idx - 1 + modalScreens.length) % modalScreens.length;
                 setActiveScreen(modalScreens[prev].key);
               }}
               className="flex w-8 h-8 justify-center items-center rounded-full border border-[#EFEFEF] bg-[#FFF]"
@@ -162,7 +197,9 @@ export default function ThemeDetails() {
                   onClick={() => setActiveScreen(s.key)}
                   className={cn(
                     "rounded-full cursor-pointer",
-                    activeScreen === s.key ? "w-5 h-2 bg-black" : "w-2 h-2 bg-[#ECECEC] hover:bg-[#D4D4D4]",
+                    activeScreen === s.key
+                      ? "w-5 h-2 bg-black"
+                      : "w-2 h-2 bg-[#ECECEC] hover:bg-[#D4D4D4]",
                   )}
                 />
               ))}
@@ -170,7 +207,9 @@ export default function ThemeDetails() {
 
             <button
               onClick={() => {
-                const idx = modalScreens.findIndex((s) => s.key === activeScreen);
+                const idx = modalScreens.findIndex(
+                  (s) => s.key === activeScreen,
+                );
                 const next = (idx + 1) % modalScreens.length;
                 setActiveScreen(modalScreens[next].key);
               }}
