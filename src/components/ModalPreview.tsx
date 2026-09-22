@@ -253,7 +253,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
           <path
             fillRule="evenodd"
             clipRule="evenodd"
-            d="M2.5013 5.41667C2.5013 3.80584 3.80714 2.5 5.41797 2.5H11.8069C13.1109 2.5 14.168 3.55711 14.168 4.86111V6.66667H14.3763C16.1022 6.66667 17.5013 8.06578 17.5013 9.79167V14.375C17.5013 16.1009 16.1022 17.5 14.3763 17.5H10.2096C9.86446 17.5 9.58464 17.2202 9.58464 16.875C9.58464 16.5298 9.86446 16.25 10.2096 16.25H14.3763C15.4118 16.25 16.2513 15.4105 16.2513 14.375V9.79167C16.2513 8.75613 15.4118 7.91667 14.3763 7.91667H5.0013C4.54594 7.91667 4.11902 7.79492 3.7513 7.58221V9.375C3.7513 9.72018 3.47148 10 3.1263 10C2.78112 10 2.5013 9.72018 2.5013 9.375V5.41667Z"
+            d="M2.5013 5.41667C2.5013 3.80584 3.80714 2.5 5.41797 2.5H11.8069C13.1109 2.5 14.168 3.55711 14.168 4.86111V6.66667H14.3763C16.1022 6.66667 17.5013 8.06578 17.5013 9.79167V14.375C17.5013 16.1009 16.1022 17.5 14.3763 17.5H10.2096C9.86446 17.5 9.58464 17.2202 9.58464 16.875C9.58464 16.5298 9.86446 16.25 10.2096 16.25H14.3763C15.4118 16.25 16.2513 15.4105 16.2513 14.375V9.79167C16.2513 8.75613 15.4118 7.91667 14.3763 7.91667H5.0013C4.54594 7.91667 4.11902 7.79492 3.7513 7.58221V9.375C3.7513 9.72018 3.47148 10 3.1263 10C2.78112 10 2.5013 9.72018 2.5013 9.375V5.41667ZM2.91797 13.1541V15.5959L5.0013 16.8111L7.08464 15.5959V13.1541L5.0013 11.9388L2.91797 13.1541ZM4.68638 10.6754C4.88098 10.5619 5.12162 10.5619 5.31622 10.6754L8.02455 12.2553C8.21657 12.3673 8.33464 12.5728 8.33464 12.7951V15.9548C8.33464 16.177 8.21657 16.3827 8.02455 16.4947L5.31622 18.0746C5.12162 18.1881 4.88098 18.1881 4.68638 18.0746L1.97805 16.4947C1.78604 16.3827 1.66797 16.177 1.66797 15.9548V12.7951C1.66797 12.5728 1.78604 12.3673 1.97805 12.2553L4.68638 10.6754Z"
             fill="currentColor"
           />
           <path
@@ -272,12 +272,14 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
     );
   };
 
-  const renderChevron = (className = "size-4") => (
+  const renderChevron = (direction: "right" | "down", className = "size-4") => (
     <svg
       className={`cr-icon-chevron ${className}`}
       viewBox="0 0 24 24"
       fill="none"
-      style={{ transform: "rotate(180deg)" }}
+      style={{
+        transform: direction === "down" ? "rotate(270deg)" : "rotate(180deg)",
+      }}
     >
       <path
         fillRule="evenodd"
@@ -336,7 +338,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                     <span className="text-xs font-medium text-[#494949]">
                       AR
                     </span>
-                    <span className="text-xs text-[#494949]">⌄</span>
+                    {renderChevron("down", "size-3 text-[#494949]")}
                   </div>
                 </div>
               </div>
@@ -371,7 +373,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                           icon as "bank" | "crypto" | "wallet" | "dots",
                         )}
                       </div>
-                      <span className="text-sm text-[#494949] group-hover:text-[#020818]">
+                      <span className="flex-1 text-sm text-[#494949] group-hover:text-[#020818]">
                         {label}
                       </span>
                       {recommended && (
@@ -412,7 +414,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                           ))}
                         </div>
                       )}
-                      {renderChevron("size-4 text-[#8A8A8A]")}
+                      {renderChevron("right", "ml-auto size-4 text-[#8A8A8A]")}
                     </div>
                   ))}
                 </div>
