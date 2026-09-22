@@ -3,6 +3,7 @@ import type { Theme } from "../types/theme";
 
 interface ThemePreviewProps {
   theme: Theme;
+  variant?: "card" | "detail";
 }
 
 const PREVIEW_URL =
@@ -12,10 +13,14 @@ const SESSION_URL =
 const LOGO_URL =
   "https://dev.chainrails.io/api/v1/images/e33c5a93-a29e-4112-84eb-82ec685a5a14";
 
-export default function ThemePreview({ theme }: ThemePreviewProps) {
+export default function ThemePreview({
+  theme,
+  variant = "card",
+}: ThemePreviewProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [session, setSession] = useState<unknown>(null);
   const [failed, setFailed] = useState(false);
+  const isDetail = variant === "detail";
 
   useEffect(() => {
     let cancelled = false;
@@ -73,7 +78,13 @@ export default function ThemePreview({ theme }: ThemePreviewProps) {
   }, [session, theme.css_content]);
 
   return (
-    <div className="pointer-events-none relative h-50 overflow-hidden rounded-xl bg-[#070A10] select-none">
+    <div
+      className={
+        isDetail
+          ? "relative h-full w-full overflow-hidden bg-[#070A10] select-none"
+          : "pointer-events-none relative h-50 overflow-hidden rounded-xl bg-[#070A10] select-none"
+      }
+    >
       {failed ? (
         <div className="flex h-full items-center justify-center text-xs text-white/60">
           Preview unavailable
@@ -83,8 +94,19 @@ export default function ThemePreview({ theme }: ThemePreviewProps) {
           ref={iframeRef}
           title={`${theme.name} payment preview`}
           src={PREVIEW_URL}
-          className="absolute left-1/2 top-0 h-[1000px] w-[568px] origin-top -translate-x-1/2 scale-[0.5] border-0"
-          style={{ translate: "-17.75rem -13.5rem" }}
+          className={
+            isDetail
+              ? "absolute left-1/2 top-4 h-[1000px] w-[568px] border-0"
+              : "absolute left-1/2 top-0 h-[1000px] w-[568px] origin-top -translate-x-1/2 scale-[0.5] border-0"
+          }
+          style={
+            isDetail
+              ? {
+                  transform: "translateX(-50%) scale(0.75)",
+                  transformOrigin: "top center",
+                }
+              : { translate: "-17.75rem -13.5rem" }
+          }
           loading="lazy"
         />
       )}

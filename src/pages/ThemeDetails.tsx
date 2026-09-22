@@ -12,7 +12,6 @@ import { useThemeBySlug } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "selectMethod", label: "Select Method" },
-
   { key: "payToAddress", label: "Pay to Address" },
   { key: "payWithWallet", label: "Pay with Wallet" },
   { key: "multiChainWalletSelect", label: "Select Wallet Chain" },
@@ -172,7 +171,12 @@ export default function ThemeDetails() {
 
           <div className="flex-1 flex items-end justify-center w-full pb-4 h-full overflow-hidden">
             <div className="scale-75 origin-bottom">
-              <MockModal screen={activeScreen} customCss={theme.css} />
+              <MockModal
+                screen={activeScreen}
+                customCss={
+                  theme.cssContent || theme.css_content || theme.css || ""
+                }
+              />
             </div>
           </div>
 
@@ -180,7 +184,7 @@ export default function ThemeDetails() {
             <button
               onClick={() => {
                 const idx = modalScreens.findIndex(
-                  (s) => s.key === activeScreen,
+                  (screen) => screen.key === activeScreen,
                 );
                 const prev =
                   (idx - 1 + modalScreens.length) % modalScreens.length;
@@ -192,13 +196,13 @@ export default function ThemeDetails() {
             </button>
 
             <div className="bg-white rounded-full px-4 h-8 flex items-center gap-2 shadow-[0px_2px_4px_rgba(0,0,0,0.05)]">
-              {modalScreens.map((s) => (
+              {modalScreens.map((screen) => (
                 <button
-                  key={s.key}
-                  onClick={() => setActiveScreen(s.key)}
+                  key={screen.key}
+                  onClick={() => setActiveScreen(screen.key)}
                   className={cn(
                     "rounded-full cursor-pointer",
-                    activeScreen === s.key
+                    activeScreen === screen.key
                       ? "w-5 h-2 bg-black"
                       : "w-2 h-2 bg-[#ECECEC] hover:bg-[#D4D4D4]",
                   )}
@@ -209,7 +213,7 @@ export default function ThemeDetails() {
             <button
               onClick={() => {
                 const idx = modalScreens.findIndex(
-                  (s) => s.key === activeScreen,
+                  (screen) => screen.key === activeScreen,
                 );
                 const next = (idx + 1) % modalScreens.length;
                 setActiveScreen(modalScreens[next].key);
