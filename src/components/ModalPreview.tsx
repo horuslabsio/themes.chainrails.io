@@ -290,6 +290,62 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
     </svg>
   );
 
+  const renderQrCode = () => {
+    const size = 29;
+    const finderOrigins = [
+      [0, 0],
+      [size - 7, 0],
+      [0, size - 7],
+    ];
+    const isFinderCell = (row: number, column: number) =>
+      finderOrigins.some(
+        ([originRow, originColumn]) =>
+          row >= originRow &&
+          row < originRow + 7 &&
+          column >= originColumn &&
+          column < originColumn + 7,
+      );
+    const modules = Array.from({ length: size * size }, (_, index) => {
+      const row = Math.floor(index / size);
+      const column = index % size;
+      if (isFinderCell(row, column)) return null;
+      const active = (row * 17 + column * 31 + row * column * 7) % 11 < 4;
+      return active ? (
+        <rect
+          key={`${row}-${column}`}
+          x={column}
+          y={row}
+          width="1"
+          height="1"
+        />
+      ) : null;
+    });
+
+    return (
+      <svg
+        className="cr-transfer-qr-code size-full"
+        viewBox={`0 0 ${size} ${size}`}
+        shapeRendering="crispEdges"
+      >
+        <rect width={size} height={size} fill="white" />
+        {finderOrigins.map(([row, column]) => (
+          <g key={`${row}-${column}`}>
+            <rect x={column} y={row} width="7" height="7" fill="#111" />
+            <rect
+              x={column + 1}
+              y={row + 1}
+              width="5"
+              height="5"
+              fill="white"
+            />
+            <rect x={column + 2} y={row + 2} width="3" height="3" fill="#111" />
+          </g>
+        ))}
+        <g fill="#111">{modules}</g>
+      </svg>
+    );
+  };
+
   const renderScreen = () => {
     switch (screen) {
       case "multiChainWalletSelect":
@@ -1103,13 +1159,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 className="cr-transfer-qr qr mx-auto my-[min(3vw,30px)] flex h-[min(90vw,360px)] w-[min(90vw,360px)] items-center justify-center rounded-[24px] bg-white p-8"
                 onMouseEnter={handleHover}
               >
-                <div
-                  className="cr-transfer-qr-code size-full rounded-xl"
-                  style={{
-                    background:
-                      "repeating-conic-gradient(#111 0 25%, #fff 0 50%) 50% / 18px 18px",
-                  }}
-                />
+                {renderQrCode()}
               </div>
             </div>
           </>

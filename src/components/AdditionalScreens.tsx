@@ -276,7 +276,16 @@ export default function AdditionalScreens({ screen, onHover }: Props) {
           <div className="cr-select-chain-list relative flex cursor-pointer select-none flex-col gap-3 overflow-y-auto">
             <div className="cr-quotes-wrapper relative rounded-[18px] border border-[#1E5BF133] bg-[#F3F3FF] p-1">
               <div className="text-[#2f2f2f] flex items-center gap-2 px-4 py-2">
-                <span className="cr-icon-star text-[#1E5BF1]">★</span>
+                <svg
+                  className="cr-icon-star size-3.25 text-[#1E5BF1]"
+                  viewBox="0 0 13 13"
+                  fill="none"
+                >
+                  <path
+                    d="M7.53596 1.18997C7.11958 0.326002 5.88302 0.326 5.46664 1.18996L4.37513 3.45479C4.36697 3.47172 4.34916 3.48608 4.32544 3.48918L1.81265 3.81713C0.86217 3.94119 0.465377 5.11261 1.1739 5.77855L3.0121 7.50625C3.02707 7.52032 3.0324 7.53913 3.02922 7.55617L2.56774 10.0237C2.38897 10.9796 3.40391 11.6867 4.24117 11.2367L6.46875 10.0397C6.48886 10.0289 6.51374 10.0289 6.53385 10.0397L8.76143 11.2367C9.59869 11.6867 10.6136 10.9796 10.4349 10.0237L9.97338 7.55617C9.97019 7.53913 9.97553 7.52032 9.9905 7.50625L11.8287 5.77855C12.5372 5.11261 12.1404 3.94119 11.1899 3.81713L8.67716 3.48918C8.65344 3.48608 8.63563 3.47172 8.62747 3.45479L7.53596 1.18997Z"
+                    fill="currentColor"
+                  />
+                </svg>
                 <p className="text-xs">Recommended</p>
               </div>
               <div
@@ -618,16 +627,54 @@ export default function AdditionalScreens({ screen, onHover }: Props) {
       <Header title={title} subtitle="Transaction history" onHover={onHover} />
       <div className="cr-history flex h-[300px] flex-col gap-4">
         <div className="cr-history-list relative flex flex-col gap-4 overflow-y-auto py-4">
-          <div className="cr-history-item flex items-center gap-3 text-[#2F2F2F]" onMouseEnter={onHover}>
-            <div className="cr-history-item-icon grid size-10 shrink-0 place-content-center rounded-full border border-[#F3F3F3] bg-white text-[#3BB15D]">↑</div>
-            <div className="flex flex-1 items-center justify-between"><div><p className="cr-wallet-token-item-name">Horus Labs</p><span className="cr-app-description flex items-center text-sm text-[#45454599]">Transaction completed</span></div><div className="flex flex-col items-end gap-1"><p className="mr-1 text-sm">$50.00</p><p className="rounded-[6px] bg-[#EBF6EE] px-1.5 py-1 text-sm capitalize text-[#3BB15D]">completed</p></div></div>
+          <div
+            className="cr-history-item flex items-center gap-3 text-[#2F2F2F]"
+            onMouseEnter={onHover}
+          >
+            <div className="cr-history-item-icon grid size-10 shrink-0 place-content-center rounded-full border border-[#F3F3F3] bg-white text-[#3BB15D]">
+              ↑
+            </div>
+            <div className="flex flex-1 items-center justify-between">
+              <div>
+                <p className="cr-wallet-token-item-name">Horus Labs</p>
+                <span className="cr-app-description flex items-center text-sm text-[#45454599]">
+                  Transaction completed
+                </span>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <p className="mr-1 text-sm">$50.00</p>
+                <p className="rounded-[6px] bg-[#EBF6EE] px-1.5 py-1 text-sm capitalize text-[#3BB15D]">
+                  completed
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="cr-history-item flex items-center gap-3 text-[#2F2F2F]" onMouseEnter={onHover}>
-            <div className="cr-history-item-icon grid size-10 shrink-0 place-content-center rounded-full border border-[#F3F3F3] bg-white text-[#006CDB]">⌛</div>
-            <div className="flex flex-1 items-center justify-between"><div><p className="cr-wallet-token-item-name">Horus Labs</p><span className="cr-app-description flex items-center text-sm text-[#45454599]">Transaction not completed</span></div><div className="flex flex-col items-end gap-1"><p className="mr-1 text-sm">$25.00</p><p className="rounded-[6px] bg-[#E5EFF9] px-1.5 py-1 text-sm capitalize text-[#006CDB]">pending</p></div></div>
+          <div
+            className="cr-history-item flex items-center gap-3 text-[#2F2F2F]"
+            onMouseEnter={onHover}
+          >
+            <div className="cr-history-item-icon grid size-10 shrink-0 place-content-center rounded-full border border-[#F3F3F3] bg-white text-[#006CDB]">
+              ⌛
+            </div>
+            <div className="flex flex-1 items-center justify-between">
+              <div>
+                <p className="cr-wallet-token-item-name">Horus Labs</p>
+                <span className="cr-app-description flex items-center text-sm text-[#45454599]">
+                  Transaction not completed
+                </span>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <p className="mr-1 text-sm">$25.00</p>
+                <p className="rounded-[6px] bg-[#E5EFF9] px-1.5 py-1 text-sm capitalize text-[#006CDB]">
+                  pending
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-        <button className="cr-history-load-more mx-auto w-fit rounded-full border border-[#E6E6E6] bg-[#F8F8F8] px-4 py-2 text-sm">Load more</button>
+        <button className="cr-history-load-more mx-auto w-fit rounded-full border border-[#E6E6E6] bg-[#F8F8F8] px-4 py-2 text-sm">
+          Load more
+        </button>
       </div>
     </>
   );
