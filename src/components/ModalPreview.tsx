@@ -272,6 +272,22 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
     );
   };
 
+  const renderChevron = (className = "size-4") => (
+    <svg
+      className={`cr-icon-chevron ${className}`}
+      viewBox="0 0 24 24"
+      fill="none"
+      style={{ transform: "rotate(180deg)" }}
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15.7068 3.29289C16.0973 3.68342 16.0973 4.31658 15.7068 4.70711L9.12102 11.2929C8.73049 11.6834 8.73049 12.3166 9.12102 12.7071L15.7068 19.2929C16.0973 19.6834 16.0973 20.3163 15.7068 20.7071C15.3163 21.0976 14.6831 21.0976 14.2926 20.7071L7.70681 14.1213C6.53523 12.9498 6.53523 11.0503 7.7068 9.8787L14.2926 3.29289C14.6831 2.90237 15.3163 2.90237 15.7068 3.29289Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+
   const renderScreen = () => {
     switch (screen) {
       case "otherPaymentMethods":
@@ -296,24 +312,32 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               onMouseEnter={handleHover}
             >
               <div
-                className="cr-amount-container relative flex items-center justify-between rounded-3xl bg-white px-4 py-3 pb-23.25"
+                className="cr-amount-display relative flex min-h-0 flex-col items-start gap-2 rounded-3xl bg-white p-4"
                 onMouseEnter={handleHover}
               >
-                <p className="cr-amount-label text-[14px] text-[#494949]">
+                <div className="cr-amount-label text-[#494949] text-[14px]">
                   Amount
-                </p>
-                <p className="cr-amount-value absolute left-0 top-10 w-full px-4 text-left font-[inter] text-[58px] font-normal leading-[106%] tracking-[-1.16px] text-[#020818]">
-                  ₦27,836.00
-                </p>
-                <p className="cr-amount-usd absolute bottom-4 left-4 text-[16px] text-[#7b7b7b]">
-                  = $20.00
-                </p>
-                <div className="cr-country-slot flex cursor-pointer items-center gap-2 rounded-full border border-[#1E5BF133] bg-[#F3F3FF] px-3 py-1.5">
-                  <span className="grid size-5 place-content-center overflow-hidden rounded-[6px] bg-[#008751] text-[10px] text-white">
-                    NG
-                  </span>
-                  <span className="text-xs font-medium text-[#494949]">NG</span>
-                  <span className="text-xs text-[#494949]">⌄</span>
+                </div>
+                <div className="flex min-h-0 w-full flex-1 items-center justify-between gap-2">
+                  <div className="flex flex-col items-start justify-center">
+                    <p className="cr-amount-value w-full shrink-0 font-[inter] text-left text-[58px] font-normal leading-[106%] tracking-[-1.16px] text-[#020818]">
+                      $ 33.077,00
+                    </p>
+                    <div className="cr-usd-equivalent text-xs text-[#7b7b7b]">
+                      = $20.00
+                    </div>
+                  </div>
+                  <div className="cr-country-slot flex cursor-pointer items-center gap-2 rounded-full border border-[#1E5BF133] bg-[#F3F3FF] px-3 py-1.5">
+                    <img
+                      src="https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1775116708/ar_ugcv7x.svg"
+                      className="size-5 overflow-clip rounded-[6px] object-cover"
+                      alt="AR"
+                    />
+                    <span className="text-xs font-medium text-[#494949]">
+                      AR
+                    </span>
+                    <span className="text-xs text-[#494949]">⌄</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -388,9 +412,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                           ))}
                         </div>
                       )}
-                      <span className="text-2xl leading-none text-[#8A8A8A]">
-                        ›
-                      </span>
+                      {renderChevron("size-4 text-[#8A8A8A]")}
                     </div>
                   ))}
                 </div>
