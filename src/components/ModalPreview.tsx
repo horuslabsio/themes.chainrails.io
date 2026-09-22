@@ -378,7 +378,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 <div className="flex min-h-0 w-full flex-1 items-center justify-between gap-2">
                   <div className="flex flex-col items-start justify-center">
                     <p className="cr-amount-value w-full shrink-0 font-[inter] text-left text-[58px] font-normal leading-[106%] tracking-[-1.16px] text-[#020818]">
-                      $ 33.077,00
+                      ₦33,077.00
                     </p>
                     <div className="cr-usd-equivalent text-xs text-[#7b7b7b]">
                       = $20.00

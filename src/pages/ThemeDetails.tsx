@@ -11,6 +11,7 @@ import { cn } from "../utils/cn";
 import { useThemeBySlug } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
+  { key: "depositInputAmount", label: "Deposit: Input Amount" },
   { key: "selectMethod", label: "Select Method" },
   { key: "payToAddress", label: "Pay to Address" },
   { key: "payWithWallet", label: "Pay with Wallet" },
