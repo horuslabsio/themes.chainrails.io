@@ -213,6 +213,65 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
     );
   };
 
+  const renderPaymentIcon = (type: "bank" | "crypto" | "wallet" | "dots") => {
+    if (type === "bank") {
+      return (
+        <svg
+          className="cr-icon-bank-transfer size-5"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M16.043 7.70801V14.3747M12.7096 14.3747V7.70801M3.95964 7.70801V14.3747M7.29297 14.3747V7.70801M2.29297 5.97724L10.0013 2.08301L17.7096 5.97724V7.70801H2.29297V5.97724ZM2.29297 16.8747H17.7096L16.8763 14.3747H3.1263L2.29297 16.8747Z"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="square"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    }
+    if (type === "crypto") {
+      return (
+        <svg className="cr-icon-crypto size-5" viewBox="0 0 20 20" fill="none">
+          <path
+            d="M17.7096 10.0003C17.7096 14.2575 14.2585 17.7087 10.0013 17.7087C5.74411 17.7087 2.29297 14.2575 2.29297 10.0003C2.29297 5.74313 5.74411 2.29199 10.0013 2.29199C14.2585 2.29199 17.7096 5.74313 17.7096 10.0003Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M9.58464 6.15142C9.84247 6.00257 10.1601 6.00257 10.418 6.15142L13.1263 7.71504C13.3841 7.8639 13.543 8.139 13.543 8.43673V11.5639C13.543 11.8616 13.3841 12.1368 13.1263 12.2856L10.418 13.8492C10.1601 13.9981 9.84247 13.9981 9.58464 13.8492L6.87631 12.2856C6.61847 12.1368 6.45964 11.8616 6.45964 11.5639V8.43673C6.45964 8.139 6.61847 7.8639 6.87631 7.71504L9.58464 6.15142Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+        </svg>
+      );
+    }
+    if (type === "wallet") {
+      return (
+        <svg className="cr-icon-wallet size-5" viewBox="0 0 20 20" fill="none">
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M2.5013 5.41667C2.5013 3.80584 3.80714 2.5 5.41797 2.5H11.8069C13.1109 2.5 14.168 3.55711 14.168 4.86111V6.66667H14.3763C16.1022 6.66667 17.5013 8.06578 17.5013 9.79167V14.375C17.5013 16.1009 16.1022 17.5 14.3763 17.5H10.2096C9.86446 17.5 9.58464 17.2202 9.58464 16.875C9.58464 16.5298 9.86446 16.25 10.2096 16.25H14.3763C15.4118 16.25 16.2513 15.4105 16.2513 14.375V9.79167C16.2513 8.75613 15.4118 7.91667 14.3763 7.91667H5.0013C4.54594 7.91667 4.11902 7.79492 3.7513 7.58221V9.375C3.7513 9.72018 3.47148 10 3.1263 10C2.78112 10 2.5013 9.72018 2.5013 9.375V5.41667Z"
+            fill="currentColor"
+          />
+          <path
+            d="M12.918 12.9167C13.3782 12.9167 13.7513 12.5436 13.7513 12.0833C13.7513 11.6231 13.3782 11.25 12.918 11.25C12.4577 11.25 12.0846 11.6231 12.0846 12.0833C12.0846 12.5436 12.4577 12.9167 12.918 12.9167Z"
+            fill="currentColor"
+          />
+        </svg>
+      );
+    }
+    return (
+      <svg className="cr-icon-dots size-5" viewBox="0 0 20 20" fill="none">
+        <circle cx="5" cy="10" r="1.25" fill="currentColor" />
+        <circle cx="10" cy="10" r="1.25" fill="currentColor" />
+        <circle cx="15" cy="10" r="1.25" fill="currentColor" />
+      </svg>
+    );
+  };
+
   const renderScreen = () => {
     switch (screen) {
       case "otherPaymentMethods":
@@ -265,32 +324,68 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               <div className="cr-payment-options flex flex-col gap-1 rounded-3xl bg-white px-2.5 pb-2.5 pt-3">
                 <div className="cr-payment-options-list flex flex-col gap-1 pb-1">
                   {[
-                    { label: "Bank Transfer", icon: "▥", recommended: true },
-                    { label: "Crypto Transfer", icon: "◉", recommended: false },
-                    { label: "Pay with Wallet", icon: "♧", recommended: false },
-                    { label: "Others", icon: "•••", recommended: false },
+                    { label: "Bank Transfer", icon: "bank", recommended: true },
+                    {
+                      label: "Crypto Transfer",
+                      icon: "crypto",
+                      recommended: false,
+                    },
+                    {
+                      label: "Pay with Wallet",
+                      icon: "wallet",
+                      recommended: false,
+                    },
+                    { label: "Others", icon: "dots", recommended: false },
                   ].map(({ label, icon, recommended }) => (
                     <div
                       key={label}
                       className="cr-payment-option group flex cursor-pointer items-center gap-3 rounded-2xl bg-[#f8f8f8] px-3.5 py-3 transition-colors duration-100 hover:bg-[#f0f0f0]"
                       onMouseEnter={handleHover}
                     >
-                      <div className="cr-payment-option-icon grid size-7 place-content-center text-xl text-[#494949]">
-                        {icon}
+                      <div className="cr-payment-option-icon grid size-7 place-content-center text-[#494949]">
+                        {renderPaymentIcon(
+                          icon as "bank" | "crypto" | "wallet" | "dots",
+                        )}
                       </div>
                       <span className="text-sm text-[#494949] group-hover:text-[#020818]">
                         {label}
                       </span>
                       {recommended && (
                         <span className="ml-auto rounded-full border border-[#AFC3FF] px-3 py-1 text-xs text-[#1E5BF1]">
-                          ★ Recommended
+                          <svg
+                            className="cr-icon-star mr-1 inline size-3"
+                            viewBox="0 0 13 13"
+                            fill="none"
+                          >
+                            <path
+                              d="M7.53596 1.18997C7.11958 0.326002 5.88302 0.326 5.46664 1.18996L4.37513 3.45479L1.81265 3.81713C0.86217 3.94119 0.465377 5.11261 1.1739 5.77855L3.0121 7.50625L2.56774 10.0237C2.38897 10.9796 3.40391 11.6867 4.24117 11.2367L6.46875 10.0397L8.76143 11.2367C9.59869 11.6867 10.6136 10.9796 10.4349 10.0237L9.97338 7.55617L11.8287 5.77855C12.5372 5.11261 12.1404 3.94119 11.1899 3.81713L8.67716 3.48918L7.53596 1.18997Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                          Recommended
                         </span>
                       )}
                       {!recommended && label !== "Others" && (
-                        <div className="ml-auto flex items-center gap-1 text-lg text-[#494949]">
-                          <span className="size-5 rounded-full bg-[#222]" />
-                          <span className="size-5 rounded-full bg-[#17104F]" />
-                          <span className="size-5 rounded-full bg-[#8B77FF]" />
+                        <div className="cr-image-stack ml-auto flex items-center gap-1">
+                          {(label === "Crypto Transfer"
+                            ? [
+                                "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087942/ethereum_iyciq3.svg",
+                                "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087943/starknet_ltvror.svg",
+                                "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772183427/solana_xv5sbs.svg",
+                              ]
+                            : [
+                                "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/metamask_jbb8hn.svg",
+                                "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443675/argent_wvdpqv.svg",
+                                "https://res.cloudinary.com/dc3gdzgel/image/upload/v1777350018/farcaster_1_veen9o.jpg",
+                              ]
+                          ).map((image, index) => (
+                            <img
+                              key={image}
+                              src={image}
+                              alt=""
+                              className={`cr-image size-5 rounded-sm object-contain ${index > 0 ? "-ml-1" : ""}`}
+                            />
+                          ))}
                         </div>
                       )}
                       <span className="text-2xl leading-none text-[#8A8A8A]">
@@ -329,27 +424,27 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   {
                     name: "MetaMask",
                     image:
-                      "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg",
+                      "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/metamask_jbb8hn.svg",
                   },
                   {
                     name: "Ready Wallet",
                     image:
-                      "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/argent.svg",
+                      "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443675/argent_wvdpqv.svg",
                   },
                   {
                     name: "Braavos",
                     image:
-                      "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/braavos.svg",
+                      "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443675/braavos_acfgsu.svg",
                   },
                   {
                     name: "Base Account",
                     image:
-                      "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/baseapp.webp",
+                      "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/baseapp_ugzpiu.webp",
                   },
                   {
                     name: "Gemini Wallet",
                     image:
-                      "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/gemini.svg",
+                      "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/gemini_xh7e4h.svg",
                   },
                 ].map((wallet, i) => (
                   <motion.div
@@ -460,7 +555,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 onMouseEnter={handleHover}
               >
                 <img
-                  src="https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg"
+                  src="https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/metamask_jbb8hn.svg"
                   alt="MetaMask"
                   className="size-full rounded-[24px]"
                 />
@@ -522,44 +617,44 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                 {[
                   {
                     name: "Ethereum",
-                    logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
+                    logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087942/ethereum_iyciq3.svg",
                     time: "≈30s",
                     fee: "0.50",
                     tokens: [
                       {
                         symbol: "USDC",
-                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087896/usdc_rexec2.svg",
                         amount: "50.50",
                       },
                       {
                         symbol: "ETH",
-                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
+                        logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087942/ethereum_iyciq3.svg",
                         amount: "0.00261",
                       },
                     ],
                   },
                   {
                     name: "Base",
-                    logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/base.webp",
+                    logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087942/base_yognh9.webp",
                     time: "≈30s",
                     fee: "0.20",
                     tokens: [
                       {
                         symbol: "USDC",
-                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087896/usdc_rexec2.svg",
                         amount: "50.20",
                       },
                     ],
                   },
                   {
                     name: "Arbitrum",
-                    logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/arbitrum.svg",
+                    logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087941/arbitrum_tp1kad.svg",
                     time: "≈30s",
                     fee: "0.30",
                     tokens: [
                       {
                         symbol: "USDC",
-                        logo: "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        logo: "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087896/usdc_rexec2.svg",
                         amount: "50.30",
                       },
                     ],
@@ -1012,7 +1107,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   onMouseEnter={handleHover}
                 >
                   <img
-                    src="https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg"
+                    src="https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/metamask_jbb8hn.svg"
                     className="cr-connect-wallet-icon size-6"
                     alt="wallet"
                     onMouseEnter={handleHover}
@@ -1060,9 +1155,9 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                       tokenSymbol: "USDC",
                       chainName: "Ethereum",
                       chainLogo:
-                        "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
+                        "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087942/ethereum_iyciq3.svg",
                       tokenLogo:
-                        "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087896/usdc_rexec2.svg",
                       balance: "1,234.56",
                       payAmount: "50.50",
                       lowBalance: false,
@@ -1071,9 +1166,9 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                       tokenSymbol: "USDC",
                       chainName: "Base",
                       chainLogo:
-                        "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/base.webp",
+                        "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087942/base_yognh9.webp",
                       tokenLogo:
-                        "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087896/usdc_rexec2.svg",
                       balance: "567.89",
                       payAmount: "50.25",
                       lowBalance: false,
@@ -1082,9 +1177,9 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                       tokenSymbol: "USDC",
                       chainName: "Arbitrum",
                       chainLogo:
-                        "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/arbitrum.svg",
+                        "https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087941/arbitrum_tp1kad.svg",
                       tokenLogo:
-                        "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/tokens/usdc.svg",
+                        "https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772087896/usdc_rexec2.svg",
                       balance: "23.45",
                       payAmount: "50.30",
                       lowBalance: true,
@@ -1189,7 +1284,7 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                   onMouseEnter={handleHover}
                 >
                   <img
-                    src="https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg"
+                    src="https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087942/ethereum_iyciq3.svg"
                     alt="Ethereum logo"
                   />
                 </figure>

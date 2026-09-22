@@ -199,7 +199,13 @@ export default function AdditionalScreens({ screen, onHover }: Props) {
           <div
             className="cr-multichain-wallet-image mx-auto size-[140px] overflow-hidden rounded-[24px] bg-[#f2f2f2]"
             onMouseEnter={onHover}
-          />
+          >
+            <img
+              src="https://res.cloudinary.com/dc3gdzgel/image/upload/q_auto/f_auto/v1772443677/metamask_jbb8hn.svg"
+              alt="MetaMask"
+              className="size-full object-contain"
+            />
+          </div>
           <p className="cr-multichain-wallet-title ml-2 text-sm text-[#49494999]">
             Select Chain
           </p>
@@ -218,9 +224,16 @@ export default function AdditionalScreens({ screen, onHover }: Props) {
       <>
         <Header title={title} subtitle="Select Wallet" onHover={onHover} />
         <div className="cr-connected-wallet -mt-2 flex items-center justify-between rounded-2xl bg-white px-4 py-2.5">
-          <span className="cr-connected-wallet-status text-sm text-[#494949]">
-            Wallet Connected
-          </span>
+          <div className="flex items-center gap-2">
+            <img
+              src="https://res.cloudinary.com/dc3gdzgel/image/upload/v1777350018/farcaster_1_veen9o.jpg"
+              alt="Farcaster"
+              className="cr-connected-wallet-icon size-7 rounded-md"
+            />
+            <span className="cr-connected-wallet-status text-sm text-[#494949]">
+              Wallet Connected
+            </span>
+          </div>
           <span className="cr-connected-wallet-info text-sm text-[#6d6d6d]">
             0x1234...5678
           </span>
@@ -231,8 +244,15 @@ export default function AdditionalScreens({ screen, onHover }: Props) {
           </p>
           <div className="cr-wallet-token-list flex max-h-[268px] flex-col gap-1">
             <Option onHover={onHover}>
-              50.00 USDC{" "}
-              <span className="text-xs text-[#7b7b7b]">≈ 100 USDC</span>
+              <span className="flex items-center gap-2">
+                <img
+                  src="https://res.cloudinary.com/dc3gdzgel/image/upload/v1772087896/usdc_rexec2.svg"
+                  alt="USDC"
+                  className="cr-wallet-token-item-image size-8 rounded-full"
+                />
+                50.00 USDC{" "}
+                <span className="text-xs text-[#7b7b7b]">≈ 100 USDC</span>
+              </span>
             </Option>
             <Option onHover={onHover} muted>
               USDC on Base <span className="text-xs">Balance too low</span>
