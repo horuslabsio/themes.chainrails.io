@@ -292,7 +292,6 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
 
   const renderScreen = () => {
     switch (screen) {
-      case "otherPaymentMethods":
       case "multiChainWalletSelect":
       case "farcasterSelectToken":
       case "fiatVerifyEmail":
@@ -980,15 +979,6 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               className="cr-transfer flex flex-col gap-3"
               onMouseEnter={handleHover}
             >
-              <div
-                className="cr-transfer-qr qr h-36 w-full rounded-[24px] bg-white p-2.5 flex items-center justify-center"
-                onMouseEnter={handleHover}
-              >
-                <div
-                  className="bg-[#f2f2f2] size-31 rounded-xl"
-                  style={{ background: `var(--qr-color, #f2f2f2)` }}
-                ></div>
-              </div>
               <p
                 className="cr-transfer-text text-[#494949]/60 ml-2 text-sm"
                 onMouseEnter={handleHover}
@@ -1098,6 +1088,30 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
               </button>
             </div>
             {/* Status and TransactionDetails (shown after payment) would go here, if needed for preview */}
+          </>
+        );
+
+      case "transferToAddressQr":
+        return (
+          <>
+            {renderHead(true, "Chainrails", "Make your Payment")}
+            <div
+              className="cr-transfer-qr-view flex flex-col gap-4 overflow-y-auto"
+              onMouseEnter={handleHover}
+            >
+              <div
+                className="cr-transfer-qr qr mx-auto my-[min(3vw,30px)] flex h-[min(90vw,360px)] w-[min(90vw,360px)] items-center justify-center rounded-[24px] bg-white p-8"
+                onMouseEnter={handleHover}
+              >
+                <div
+                  className="cr-transfer-qr-code size-full rounded-xl"
+                  style={{
+                    background:
+                      "repeating-conic-gradient(#111 0 25%, #fff 0 50%) 50% / 18px 18px",
+                  }}
+                />
+              </div>
+            </div>
           </>
         );
 
@@ -1533,22 +1547,12 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                     onMouseEnter={handleHover}
                   >
                     <p>Network</p>
-                    <p className="flex items-center gap-2">
-                      <span
-                        className="cr-transfer-value text-[#020818]"
-                        onMouseEnter={handleHover}
-                      >
-                        50.50 USDC
-                      </span>
-                      <p className="flex items-center gap-2">
-                        <span
-                          className="cr-transfer-value text-[#020818]"
-                          onMouseEnter={handleHover}
-                        >
-                          Ethereum
-                        </span>
-                      </p>
-                    </p>
+                    <span
+                      className="cr-transfer-value text-[#020818]"
+                      onMouseEnter={handleHover}
+                    >
+                      Ethereum
+                    </span>
                   </div>
                   <div
                     className="cr-transfer-detail flex items-center justify-between py-2.5"
@@ -1568,14 +1572,13 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
                     className="cr-transfer-detail flex items-center justify-between pt-3"
                     onMouseEnter={handleHover}
                   >
-                    <p className="flex items-center gap-2">
-                      <span
-                        className="cr-transfer-value text-[#020818]"
-                        onMouseEnter={handleHover}
-                      >
-                        2026-02-16 12:34:56
-                      </span>
-                    </p>
+                    <p>Timestamp</p>
+                    <span
+                      className="cr-transfer-value text-[#020818]"
+                      onMouseEnter={handleHover}
+                    >
+                      2026-02-16 12:34:56
+                    </span>
                   </div>
                 </div>
               </div>

@@ -30,13 +30,13 @@ export interface ThemeFilter {
 
 export type ThemeModalScreen =
   | "selectMethod"
-  | "otherPaymentMethods"
   | "payToAddress"
   | "payWithWallet"
   | "multiChainWalletSelect"
   | "farcasterSelectToken"
   | "connectToWallet"
   | "transferToAddress"
+  | "transferToAddressQr"
   | "transferWithWallet"
   | "addRefundAddress"
   | "initiatingTransfer"

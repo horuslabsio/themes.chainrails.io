@@ -12,13 +12,14 @@ import { useThemeBySlug } from "../hooks/useThemeQueries";
 
 const modalScreens: { key: ThemeModalScreen; label: string }[] = [
   { key: "selectMethod", label: "Select Method" },
-  { key: "otherPaymentMethods", label: "Other Payment Methods" },
+
   { key: "payToAddress", label: "Pay to Address" },
   { key: "payWithWallet", label: "Pay with Wallet" },
   { key: "multiChainWalletSelect", label: "Select Wallet Chain" },
   { key: "farcasterSelectToken", label: "Farcaster Token" },
   { key: "connectToWallet", label: "Connect Wallet" },
   { key: "transferToAddress", label: "Transfer to Address" },
+  { key: "transferToAddressQr", label: "Transfer to Address: QR" },
   { key: "transferWithWallet", label: "Transfer with Wallet" },
   { key: "addRefundAddress", label: "Add Refund Address" },
   { key: "initiatingTransfer", label: "Initiating Transfer" },

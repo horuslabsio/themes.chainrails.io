@@ -48,13 +48,13 @@ function Header({
           onMouseEnter={onHover}
         >
           <h1
-            className="cr-app-title ml-auto mr-auto line-clamp-1 w-fit font-[inter] text-[1.25rem] capitalize leading-[106%] tracking-[-0.4px] text-[#494949]"
+            className="cr-app-title ml-auto mr-auto line-clamp-1 w-fit text-center font-[inter] text-[1.25rem] capitalize leading-[106%] tracking-[-0.4px] text-[#494949]"
             onMouseEnter={onHover}
           >
             {title}
           </h1>
           <div
-            className="cr-app-description mr-auto line-clamp-1 w-fit min-w-0 max-w-[250px] text-sm tracking-[-0.28px] text-[#45454599]"
+            className="cr-app-description ml-auto mr-auto line-clamp-1 w-fit min-w-0 max-w-[250px] text-center text-sm tracking-[-0.28px] text-[#45454599]"
             onMouseEnter={onHover}
           >
             {subtitle}
@@ -172,25 +172,6 @@ function Info({
 export default function AdditionalScreens({ screen, onHover }: Props) {
   const title = "Horus Labs";
 
-  if (screen === "otherPaymentMethods") {
-    return (
-      <>
-        <Header
-          title={title}
-          subtitle="Other payment methods"
-          onHover={onHover}
-        />
-        <Amount onHover={onHover} />
-        <div className="cr-payment-methods flex flex-col gap-1">
-          {" "}
-          <Option onHover={onHover}>Pay with bank transfer</Option>
-          <Option onHover={onHover}>Pay with mobile money</Option>
-          <Option onHover={onHover}>Pay with external provider</Option>
-        </div>
-      </>
-    );
-  }
-
   if (screen === "multiChainWalletSelect") {
     return (
       <>
@@ -289,18 +270,32 @@ export default function AdditionalScreens({ screen, onHover }: Props) {
         <Header title={title} subtitle="Select Provider" onHover={onHover} />
         <Amount onHover={onHover} />
         <div className="cr-select-chain relative flex flex-col gap-2.5 overflow-hidden">
-          <p className="cr-select-chain-title ml-2 text-sm text-[#49494999]">
-            Select Provider (United States)
-          </p>
-          <div className="cr-select-chain-list relative flex flex-col gap-3">
+          <p className="cr-select-chain-title ml-2 text-sm text-[#49494999]">Select Provider (United States)</p>
+          <div className="cr-select-chain-list relative flex cursor-pointer select-none flex-col gap-3 overflow-y-auto">
             <div className="cr-quotes-wrapper relative rounded-[18px] border border-[#1E5BF133] bg-[#F3F3FF] p-1">
-              <div className="flex items-center gap-2 px-4 py-2">
-                <span className="text-xs text-[#2f2f2f]">★ Recommended</span>
+              <div className="text-[#2f2f2f] flex items-center gap-2 px-4 py-2">
+                <span className="cr-icon-star text-[#1E5BF1]">★</span>
+                <p className="text-xs">Recommended</p>
               </div>
-              <Option onHover={onHover}>Guardarian</Option>
+              <div className="cr-select-chain-item cr-provider-detail cursor-pointer rounded-2xl border border-[#E6E6E6] bg-white text-sm transition-transform duration-200" onMouseEnter={onHover}>
+                <div className="cr-select-chain-chain flex h-12 w-full items-center justify-between gap-2 px-5 py-2.5">
+                  <div className="cr-select-chain-chain-desc flex items-center gap-2">
+                    <div className="cr-select-chain-icon size-5 overflow-hidden rounded-[6px]"><img src="/images/ramp/GUARDARIAN.svg" alt="Guardarian" className="size-full object-contain" /></div>
+                    <p className="cr-select-chain-name text-[#2F2F2F]">Guardarian</p>
+                  </div>
+                  <div className="flex items-center gap-1 rounded-lg bg-[#F3F3FF] px-2 py-1"><span className="cr-select-chain-eta text-xs font-semibold text-[#1E5BF1]">$1 = $1.00</span></div>
+                </div>
+                <div className="border-t border-[#E6E6E6] px-5 pb-4 pt-3">
+                  <div className="flex items-center justify-between gap-1 text-sm text-[#2F2F2F]">
+                    <div className="flex flex-col gap-px"><span className="text-xs text-[#45454599]">You pay</span><p className="font-medium">$20.00</p></div>
+                    <div className="flex flex-col gap-px"><span className="text-xs text-[#45454599]">You get</span><p className="font-medium">20.00 USDC</p></div>
+                    <button className="grid size-7 place-content-center rounded-full bg-[#383838] p-1 text-white" onMouseEnter={onHover}>→</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="cr-quotes-wrapper relative rounded-[18px] border border-[#E6E6E6] bg-[#F8F8F8] p-1">
-              <Option onHover={onHover}>Other Providers</Option>
+              <div className="flex items-center justify-between px-3 py-1.5 text-[#2f2f2f]"><p className="text-xs">Other Providers</p><span className="cr-select-chain-chevron text-[#6d6d6d]">⌄</span></div>
             </div>
           </div>
         </div>
