@@ -231,155 +231,73 @@ export default function ModalPreview({ screen, customCss }: ModalPreviewProps) {
       case "selectMethod":
         return (
           <>
-            {renderHead(true, "Chainrails", "Complete your payment")}
+            {renderHead(true, "Horus Labs", "Complete your payment")}
             <div
               className="cr-amount-fees-grid grid gap-0.75"
               onMouseEnter={handleHover}
             >
-              {renderAmount(false)}
-              {renderFees(false)}
+              <div
+                className="cr-amount-container relative flex items-center justify-between rounded-3xl bg-white px-4 py-3 pb-23.25"
+                onMouseEnter={handleHover}
+              >
+                <p className="cr-amount-label text-[14px] text-[#494949]">
+                  Amount
+                </p>
+                <p className="cr-amount-value absolute left-0 top-10 w-full px-4 text-left font-[inter] text-[58px] font-normal leading-[106%] tracking-[-1.16px] text-[#020818]">
+                  ₦27,836.00
+                </p>
+                <p className="cr-amount-usd absolute bottom-4 left-4 text-[16px] text-[#7b7b7b]">
+                  = $20.00
+                </p>
+                <div className="cr-country-slot flex cursor-pointer items-center gap-2 rounded-full border border-[#1E5BF133] bg-[#F3F3FF] px-3 py-1.5">
+                  <span className="grid size-5 place-content-center overflow-hidden rounded-[6px] bg-[#008751] text-[10px] text-white">
+                    NG
+                  </span>
+                  <span className="text-xs font-medium text-[#494949]">NG</span>
+                  <span className="text-xs text-[#494949]">⌄</span>
+                </div>
+              </div>
             </div>
             <div
               className="cr-select-method -mt-4 flex flex-col gap-1 pt-2"
               onMouseEnter={handleHover}
             >
-              <div
-                className="cr-payment-options flex flex-col gap-2.5 rounded-3xl bg-white p-2.5 pt-3"
-                onMouseEnter={handleHover}
-              >
-                <div
-                  className="cr-payment-methods flex gap-1"
-                  onMouseEnter={handleHover}
-                >
-                  <button
-                    className="cr-button h-9 w-fit rounded-4xl text-white bg-gradient-to-b from-[#2f2f2f] to-[#0b0b0b] button-shadow text-sm px-4"
-                    onMouseEnter={handleHover}
-                  >
-                    Pay with Crypto
-                  </button>
-                  <button
-                    className="cr-button h-9 w-fit rounded-[10px] text-[#6d6d6d] bg-[#F8F8F8] text-sm pl-3 pr-4 flex items-center gap-2"
-                    onMouseEnter={handleHover}
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+              <div className="cr-payment-options flex flex-col gap-1 rounded-3xl bg-white px-2.5 pb-2.5 pt-3">
+                <div className="cr-payment-options-list flex flex-col gap-1 pb-1">
+                  {[
+                    { label: "Bank Transfer", icon: "▥", recommended: true },
+                    { label: "Crypto Transfer", icon: "◉", recommended: false },
+                    { label: "Pay with Wallet", icon: "♧", recommended: false },
+                    { label: "Others", icon: "•••", recommended: false },
+                  ].map(({ label, icon, recommended }) => (
+                    <div
+                      key={label}
+                      className="cr-payment-option group flex cursor-pointer items-center gap-3 rounded-2xl bg-[#f8f8f8] px-3.5 py-3 transition-colors duration-100 hover:bg-[#f0f0f0]"
+                      onMouseEnter={handleHover}
                     >
-                      <path
-                        d="M2.75 9.75005V17.2461C2.75 18.3507 3.64543 19.2461 4.75 19.2461L19.2461 19.2461C20.3507 19.2461 21.2461 18.3507 21.2461 17.2461V9.75005M2.75 9.75005V6.75293C2.75 5.64836 3.64543 4.75293 4.75 4.75293H19.248C20.3503 4.75293 21.2448 5.64482 21.2457 6.74712C21.2464 7.74809 21.2461 8.74907 21.2461 9.75005M2.75 9.75005H21.2461"
-                        stroke="#878787"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                    </svg>
-                    Pay with Card
-                  </button>
-                </div>
-                <div
-                  className="cr-payment-options-list flex flex-col gap-1"
-                  onMouseEnter={handleHover}
-                >
-                  <div
-                    className="cr-payment-option bg-[#f8f8f8] hover:bg-[#f0f0f0] flex cursor-pointer items-center gap-4 rounded-2xl px-3.5 py-3 transition-colors duration-100 group/cpo"
-                    onMouseEnter={handleHover}
-                  >
-                    <p className="text-[14px] text-[#2f2f2f] group-hover/cpo:text-text-900">
-                      Pay from wallet
-                    </p>
-                    <div className="cr-network flex cursor-pointer items-center gap-2 transition-all duration-200 group-hover/cpo:gap-0 ml-auto">
-                      <div className="cr-image-stack flex">
-                        {[
-                          "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/metamask.svg",
-                          "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/argent.svg",
-                          "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/wallets/phantom.svg",
-                        ].map((image, index) => (
-                          <div
-                            key={index}
-                            style={{
-                              zIndex: 3 - index,
-                            }}
-                            className={`cr-image-item relative flex size-6 items-center justify-center rounded-[6px] z-[${3 - index}] -mr-1.5 overflow-clip transition-[margin] duration-200 group-hover/cpo:mr-0.5`}
-                          >
-                            <img
-                              src={image}
-                              alt={`image ${index + 1}`}
-                              className="cr-image size-full rounded-[6px]"
-                            />
-                          </div>
-                        ))}
+                      <div className="cr-payment-option-icon grid size-7 place-content-center text-xl text-[#494949]">
+                        {icon}
                       </div>
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        direction="right"
-                        className="size-4 text-[#000] transition-all duration-200 group-hover/cpo:size-6"
-                        style={{ transform: "rotate(180deg)" }}
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M15.7068 3.29289C16.0973 3.68342 16.0973 4.31658 15.7068 4.70711L9.12102 11.2929C8.73049 11.6834 8.73049 12.3166 9.12102 12.7071L15.7068 19.2929C16.0973 19.6834 16.0973 20.3166 15.7068 20.7071C15.3163 21.0976 14.6831 21.0976 14.2926 20.7071L7.70681 14.1213C6.53523 12.9498 6.53523 11.0503 7.7068 9.8787L14.2926 3.29289C14.6831 2.90237 15.3163 2.90237 15.7068 3.29289Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
+                      <span className="text-sm text-[#494949] group-hover:text-[#020818]">
+                        {label}
+                      </span>
+                      {recommended && (
+                        <span className="ml-auto rounded-full border border-[#AFC3FF] px-3 py-1 text-xs text-[#1E5BF1]">
+                          ★ Recommended
+                        </span>
+                      )}
+                      {!recommended && label !== "Others" && (
+                        <div className="ml-auto flex items-center gap-1 text-lg text-[#494949]">
+                          <span className="size-5 rounded-full bg-[#222]" />
+                          <span className="size-5 rounded-full bg-[#17104F]" />
+                          <span className="size-5 rounded-full bg-[#8B77FF]" />
+                        </div>
+                      )}
+                      <span className="text-2xl leading-none text-[#8A8A8A]">
+                        ›
+                      </span>
                     </div>
-                  </div>
-
-                  <div
-                    className="cr-payment-option bg-[#f8f8f8] hover:bg-[#f0f0f0] flex cursor-pointer items-center gap-4 rounded-2xl px-3.5 py-3 transition-colors duration-100 group/cpo"
-                    onMouseEnter={handleHover}
-                  >
-                    <p className="text-[14px] text-[#2f2f2f] group-hover/cpo:text-text-900">
-                      Pay with transfer
-                    </p>
-                    <div className="cr-network flex cursor-pointer items-center gap-2 transition-all duration-200 group-hover/cpo:gap-0 ml-auto">
-                      <div className="cr-image-stack flex">
-                        {[
-                          "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/ethereum.svg",
-                          "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/base.webp",
-                          "https://chainrails-frontend-git-staging-horus-labs.vercel.app/images/chains/starknet.svg",
-                        ].map((image, index) => (
-                          <div
-                            key={index}
-                            style={{
-                              zIndex: 3 - index,
-                            }}
-                            className={`cr-image-item relative flex size-6 items-center justify-center rounded-[6px] z-[${3 - index}] -mr-1.5 overflow-clip transition-[margin] duration-200 group-hover/cpo:mr-0.5`}
-                          >
-                            <img
-                              src={image}
-                              alt={`image ${index + 1}`}
-                              className="cr-image size-full rounded-[6px]"
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        direction="right"
-                        className="size-4 text-[#000] transition-all duration-200 group-hover/cpo:size-6"
-                        style={{ transform: "rotate(180deg)" }}
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M15.7068 3.29289C16.0973 3.68342 16.0973 4.31658 15.7068 4.70711L9.12102 11.2929C8.73049 11.6834 8.73049 12.3166 9.12102 12.7071L15.7068 19.2929C16.0973 19.6834 16.0973 20.3166 15.7068 20.7071C15.3163 21.0976 14.6831 21.0976 14.2926 20.7071L7.70681 14.1213C6.53523 12.9498 6.53523 11.0503 7.7068 9.8787L14.2926 3.29289C14.6831 2.90237 15.3163 2.90237 15.7068 3.29289Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
